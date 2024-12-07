@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace BP.TMPA
+namespace BP.TMPA.Internal
 {
     [CustomEditor(typeof(TextEffectBase), true)]
     internal class TextEffectEditor : Editor

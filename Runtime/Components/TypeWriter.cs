@@ -10,7 +10,7 @@ namespace BP.TMPA
     {
         [Tooltip("The default rate of characters appearing per second (1s / writeRate)")]
         [SerializeField] private float readRate = 10;
-        private TMP_Text m_TextComponent;
+        [SerializeField] private TextMeshProAnimated proAnimated;
 
         private float currentReadRate;
         private Coroutine readerCoroutine;
@@ -20,7 +20,6 @@ namespace BP.TMPA
 
         private void OnEnable()
         {
-            TryGetComponent(out m_TextComponent);
             ResetValues();
             Read();
         }
@@ -38,20 +37,20 @@ namespace BP.TMPA
         public void ResetValues()
         {
             currentReadRate = readRate;
-            m_TextComponent.maxVisibleCharacters = int.MaxValue;
+            proAnimated.MaxVisibleCharacters = int.MaxValue;
         }
 
         private IEnumerator Reader()
         {
-            m_TextComponent.maxVisibleCharacters = 0;
+            proAnimated.MaxVisibleCharacters = 0;
             int visibleCounter = 0;
-            TMP_TextInfo textInfo = m_TextComponent.textInfo;
+            TMP_TextInfo textInfo = proAnimated.TextComponent.textInfo;
 
             while (visibleCounter < textInfo.characterCount)
             {
                 yield return new WaitForSeconds(1 / currentReadRate);
                 visibleCounter++;
-                m_TextComponent.maxVisibleCharacters = visibleCounter;
+                proAnimated.MaxVisibleCharacters = visibleCounter;
             }
 
             ReadComplete?.Invoke();

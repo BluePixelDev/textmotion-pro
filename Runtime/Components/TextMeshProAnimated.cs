@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace BP.TMPA
 {
@@ -8,26 +8,31 @@ namespace BP.TMPA
     public class TextMeshProAnimated : MonoBehaviour
     {
         [SerializeField] private TextEffectsProfile effectsProfile;
-        [SerializeField] private int maxVisibleCharacters;
+        [SerializeField] private int _maxVisibleCharacters;
         [SerializeField] private float updateRate = 24f;
-
-        // Improved character visibility tracking
-        private class CharacterVisibilityInfo
-        {
-            public float StartTime;
-            public int CharacterIndex;
-        }
-
-        // Use a more efficient data structure for character visibility
-        private readonly Dictionary<int, CharacterDataEntry> characterVisibilityMap = new();
 
         private TextEffectsProfile _prevProfile;
         private TMP_Text _textComponent;
         private TextMeshPreprocessor _preprocessor;
-        private TMP_MeshInfo[] _cachedMeshInfo;
 
-        private bool isDirty = false;
+        private TMP_MeshInfo[] _cachedMeshInfo;
+        private TMP_MeshInfo[] _localMeshInfo;
+
         private float animationTime = 0;
+        private int _prevMaxVisibleCharacters;
+
+        public int MaxVisibleCharacters
+        {
+            get => _maxVisibleCharacters;
+            set
+            {
+                _maxVisibleCharacters = value;
+                if (!Application.isPlaying)
+                {
+                    RenderTextEffects();
+                }
+            }
+        }
 
         // ==== GETTERS ====
         public TMP_Text TextComponent
@@ -56,44 +61,34 @@ namespace BP.TMPA
                 && effectsProfile.GetTextEffectWithTag(tag).ValidateTagAttributes(tag, attributes);
         }
 
-        /// <summary>
-        /// Gets the start time of a specific character's visibility
-        /// </summary>
-        /// <param name="characterIndex">The character index</param>
-        /// <returns>The start time of character visibility, or -1 if not found</returns>
-        public float GetCharacterVisibilityStartTime(int characterIndex)
-        {
-            return characterVisibilityMap.TryGetValue(characterIndex, out var data)
-                ? data.FirstVisibleTime
-                : -1f;
-        }
-
         // ==== UNITY METHODS ====
         private void OnEnable()
         {
+            // Clears andy cache from the pre processor
+            _prevMaxVisibleCharacters = _maxVisibleCharacters;
             PreProcessor.ClearCache();
-            characterVisibilityMap.Clear();
-
             TextComponent.textPreprocessor = PreProcessor;
-            TMPro_EventManager.TEXT_CHANGED_EVENT.Add(TextChangeEvent);
+            TextEventManager.TEXT_CHANGED_EVENT.Add(OnTextUpdate);
 
-            TextComponent.ForceMeshUpdate(true, true);
-            isDirty = true;
-            CharacterUpdate();
+            // We forcibly update text mesh pro to get the data we need
+            ForceUpdateRender();
         }
         private void OnDisable()
         {
-            TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(TextChangeEvent);
+            TextEventManager.TEXT_CHANGED_EVENT.Remove(OnTextUpdate);
             TextComponent.textPreprocessor = null;
+
+            // We forcibly update text mesh pro to get the data we need
+            ForceUpdateRender();
         }
         private void OnValidate()
         {
             // Forces mesh update if the profile changes
-            if (_prevProfile != effectsProfile)
+            if (_prevProfile != effectsProfile || _maxVisibleCharacters != _prevMaxVisibleCharacters)
             {
                 _prevProfile = effectsProfile;
-                isDirty = true;
-                TextComponent.ForceMeshUpdate(true, true);
+                _prevMaxVisibleCharacters = _maxVisibleCharacters;
+                ForceUpdateRender();
             }
         }
         private void Update()
@@ -109,45 +104,64 @@ namespace BP.TMPA
 
             if (Time.frameCount % Mathf.CeilToInt(targetFrameRate / updateRate) == 0)
             {
-                CharacterUpdate();
+                RenderTextEffects();
             }
         }
-        private void OnDestroy()
-        {
-            PreProcessor.Dispose();
-        }
+        private void OnDestroy() => PreProcessor.Dispose();
 
-        // ==== CALLBACKS ====
-        private void TextChangeEvent(Object obj)
+        private void OnTextUpdate(Object obj)
         {
             if (obj == TextComponent)
             {
-                isDirty = true;
-                CharacterUpdate();
+
             }
         }
 
-        // ==== UPDATE LOOP ====
-        private void CharacterUpdate()
+        // ==== FORCE UPDATERS ====
+        private void ForceUpdateRender()
+        {
+            if (TextComponent.textInfo.characterCount == 0) return;
+            TextComponent.ForceMeshUpdate(true);
+            UpdateMeshCache();  // Cache the current mesh data
+            RenderTextEffects();
+        }
+
+        // ==== UPDATING CACHE ====
+        private void UpdateMeshCache()
+        {
+            // Caching the newly generared mesh data
+            if (TextComponent.textInfo.characterCount == 0) return;
+            _cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
+        }
+
+        // ==== RENDERING ====
+        private void RenderTextEffects()
         {
             if (!effectsProfile || !TextComponent) return;
-
+            if (TextComponent.textInfo.characterCount == 0) return;
             if (string.IsNullOrEmpty(TextComponent.text))
             {
                 TextComponent.ClearMesh();
                 return;
             }
 
-            DirtyUpdate();
-
             // Iterates over all characters
             var charInfo = TextComponent.textInfo.characterInfo;
+            int visibleCharacterCount = 0;
             for (int i = 0; i < charInfo.Length; i++)
             {
                 ref var character = ref charInfo[i];
-
-                // Skip invisible or zero-scaled characters
                 if (!character.isVisible || character.scale == 0) continue;
+
+                // Only count non-whitespace characters
+                if (!char.IsWhiteSpace(character.character))
+                {
+                    // Check if we've exceeded max visible characters
+                    bool isVisible = MaxVisibleCharacters < 0 || visibleCharacterCount < MaxVisibleCharacters;
+                    ModifyCharacterVisibility(i, isVisible);
+                    TextAnimatedUtility.AddUpdateFlags(TMP_VertexDataUpdateFlags.Colors32);
+                    visibleCharacterCount++;
+                }
 
                 // Fetch tag effects that affect this indices, skip if none found.
                 var tags = PreProcessor.GetTagEffectsAtIndex(character.index);
@@ -159,14 +173,7 @@ namespace BP.TMPA
                     var textEffect = effectsProfile.GetTextEffectWithTag(tag.Name);
                     if (textEffect == null || !textEffect.IsActive()) continue;
 
-                    TextRenderContext.Current.Reset(
-                    tag,
-                        characterVisibilityMap[character.index].FirstVisibleTime,
-                        character.index,
-                        animationTime,
-                        this
-                    );
-
+                    TextRenderContext.Current.Reset(tag, 0, character.index, animationTime, this);
                     textEffect.ApplyEffect();
                 }
             }
@@ -175,11 +182,23 @@ namespace BP.TMPA
             TextAnimatedUtility.ResetUpdateFlags();
             TextAnimatedUtility.UpdateMeshInfo(TextComponent, ref _cachedMeshInfo);
         }
-        private void DirtyUpdate()
+
+        private void ModifyCharacterVisibility(int index, bool isVisible)
         {
-            if (!isDirty) return;
-            _cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
-            isDirty = false;
+            ref TMP_CharacterInfo characterInfo = ref TextComponent.textInfo.characterInfo[index];
+            int materialIndex = characterInfo.materialReferenceIndex;
+            int vertexIndex = characterInfo.vertexIndex;
+
+            ref Color32[] tmpColors = ref TextComponent.textInfo.meshInfo[materialIndex].colors32;
+            ref Color32[] cachedColors = ref _cachedMeshInfo[materialIndex].colors32;
+
+            // Modify the color alpha to control visibility
+            for (int j = 0; j < 4; j++)
+            {
+                int colorIndex = vertexIndex + j;
+                byte targetAlpha = isVisible ? cachedColors[colorIndex].a : (byte)0;
+                tmpColors[colorIndex].a = targetAlpha;
+            }
         }
     }
 }

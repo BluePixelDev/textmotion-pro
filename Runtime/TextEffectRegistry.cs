@@ -9,8 +9,7 @@ namespace BP.TMPA
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
-
-    internal static class TextEffectRegistry
+    public static class TextEffectRegistry
     {
         public static List<TextEffectDescriptor> TextEffects { get; } = new();
         static TextEffectRegistry() => Init();

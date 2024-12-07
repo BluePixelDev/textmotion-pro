@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace BP.TMPA
+namespace BP.TMPA.Internal
 {
     [CustomEditor(typeof(TextEffectsProfile))]
     public class TextEffectsProfileEditor : Editor

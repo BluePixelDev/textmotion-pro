@@ -25,20 +25,6 @@ namespace BP.TMPA
         internal static void ResetUpdateFlags() => UpdateFlags = TMP_VertexDataUpdateFlags.None;
 
         /// <summary>
-        /// Copies the contents of one array to another, resizing the target array if necessary.
-        /// </summary>
-        /// <typeparam name="T">The type of array elements.</typeparam>
-        /// <param name="source">The source array to copy from.</param>
-        /// <param name="target">The target array to copy into (passed by reference to allow resizing).</param>
-        public static void CopyArrayContents<T>(T[] source, ref T[] target)
-        {
-            if (target.Length < source.Length)
-                Array.Resize(ref target, source.Length);
-
-            Array.Copy(source, target, target.Length);
-        }
-
-        /// <summary>
         /// Updates the mesh information for a TextMesh Pro component using cached mesh data.
         /// </summary>
         /// <param name="text">The TextMesh Pro component to update.</param>
@@ -56,6 +42,20 @@ namespace BP.TMPA
                 CopyArrayContents(originalMeshInfo.vertices, ref meshInfo.vertices);
                 CopyArrayContents(originalMeshInfo.colors32, ref meshInfo.colors32);
             }
+        }
+
+        /// <summary>
+        /// Copies the contents of one array to another, resizing the target array if necessary.
+        /// </summary>
+        /// <typeparam name="T">The type of array elements.</typeparam>
+        /// <param name="source">The source array to copy from.</param>
+        /// <param name="target">The target array to copy into (passed by reference to allow resizing).</param>
+        public static void CopyArrayContents<T>(T[] source, ref T[] target)
+        {
+            if (target.Length < source.Length)
+                Array.Resize(ref target, source.Length);
+
+            Array.Copy(source, target, target.Length);
         }
     }
 }
