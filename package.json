@@ -1,0 +1,14 @@
+{
+    "name": "com.blue.tmpanimated",
+    "displayName": "Text Mesh Pro - Animated",
+    "version": "0.0.1-preview",
+    "unity": "6000.0",
+    "dependencies": {
+
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Bluepixel",
+        "email": "bluepixeldev@gmail.com"
+    }
+}
