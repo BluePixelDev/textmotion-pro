@@ -44,7 +44,7 @@ namespace BP.TMPA
             vertexPositions[vertexIndex + 2] += offset;
             vertexPositions[vertexIndex + 3] += offset;
 
-            TextAnimatedUtility.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
+            TextRenderUtil.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
         }
     }
 }

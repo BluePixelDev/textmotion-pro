@@ -36,7 +36,7 @@ namespace BP.TMPA
                 vertexPositions[vertexIndex + 3] += new Vector3(0f, waveOffset, 0f);
 
                 // Mark the mesh as needing an update
-                TextAnimatedUtility.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
+                TextRenderUtil.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
             }
         }
     }

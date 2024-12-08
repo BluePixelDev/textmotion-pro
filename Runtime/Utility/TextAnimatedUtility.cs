@@ -9,22 +9,6 @@ namespace BP.TMPA
     public static class TextAnimatedUtility
     {
         /// <summary>
-        /// Gets the current vertex data update flags.
-        /// </summary>
-        public static TMP_VertexDataUpdateFlags UpdateFlags { get; private set; } = TMP_VertexDataUpdateFlags.None;
-
-        /// <summary>
-        /// Adds additional update flags to the current set of flags.
-        /// </summary>
-        /// <param name="flags">Flags to add to the current update flags.</param>
-        public static void AddUpdateFlags(TMP_VertexDataUpdateFlags flags) => UpdateFlags |= flags;
-
-        /// <summary>
-        /// Resets the update flags to None.
-        /// </summary>
-        internal static void ResetUpdateFlags() => UpdateFlags = TMP_VertexDataUpdateFlags.None;
-
-        /// <summary>
         /// Updates the mesh information for a TextMesh Pro component using cached mesh data.
         /// </summary>
         /// <param name="text">The TextMesh Pro component to update.</param>
@@ -33,14 +17,19 @@ namespace BP.TMPA
         {
             if (cachedMeshInfo == null) return;
             TMP_TextInfo textInfo = text.textInfo;
-            for (int i = 0; i < textInfo.meshInfo.Length; i++)
+            CopyMeshInfo(cachedMeshInfo, ref textInfo.meshInfo);
+        }
+
+        public static void CopyMeshInfo(TMP_MeshInfo[] src, ref TMP_MeshInfo[] dst)
+        {
+            for (int i = 0; i < src.Length; i++)
             {
-                var originalMeshInfo = cachedMeshInfo[i];
-                var meshInfo = textInfo.meshInfo[i];
-                CopyArrayContents(originalMeshInfo.uvs0, ref meshInfo.uvs0);
-                CopyArrayContents(originalMeshInfo.uvs2, ref meshInfo.uvs2);
-                CopyArrayContents(originalMeshInfo.vertices, ref meshInfo.vertices);
-                CopyArrayContents(originalMeshInfo.colors32, ref meshInfo.colors32);
+                ref var srcMeshInfo = ref src[i];
+                ref var dstMeshInfo = ref dst[i];
+                CopyResizeArray(srcMeshInfo.uvs0, ref dstMeshInfo.uvs0);
+                CopyResizeArray(srcMeshInfo.uvs2, ref dstMeshInfo.uvs2);
+                CopyResizeArray(srcMeshInfo.vertices, ref dstMeshInfo.vertices);
+                CopyResizeArray(srcMeshInfo.colors32, ref dstMeshInfo.colors32);
             }
         }
 
@@ -48,14 +37,14 @@ namespace BP.TMPA
         /// Copies the contents of one array to another, resizing the target array if necessary.
         /// </summary>
         /// <typeparam name="T">The type of array elements.</typeparam>
-        /// <param name="source">The source array to copy from.</param>
-        /// <param name="target">The target array to copy into (passed by reference to allow resizing).</param>
-        public static void CopyArrayContents<T>(T[] source, ref T[] target)
+        /// <param name="src">The source array to copy from.</param>
+        /// <param name="dst">The destination array to copy into (passed by reference to allow resizing).</param>
+        public static void CopyResizeArray<T>(T[] src, ref T[] dst)
         {
-            if (target.Length < source.Length)
-                Array.Resize(ref target, source.Length);
+            if (dst == null || dst.Length < src.Length)
+                Array.Resize(ref dst, src.Length);
 
-            Array.Copy(source, target, target.Length);
+            Array.Copy(src, dst, src.Length);
         }
     }
 }

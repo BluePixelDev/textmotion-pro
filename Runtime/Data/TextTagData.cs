@@ -93,13 +93,11 @@ namespace BP.TMPA
         {
             return obj is TextTagData data &&
                    Name == data.Name &&
-                   Attributes == data.Attributes &&
-                   StartIndex == data.StartIndex &&
-                   EndIndex == data.EndIndex;
+                   Attributes == data.Attributes;
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Attributes, StartIndex, EndIndex);
+            return HashCode.Combine(Name, Attributes);
         }
     }
 }

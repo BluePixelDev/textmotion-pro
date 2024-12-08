@@ -35,7 +35,7 @@ namespace BP.TMPA
             vertexPositions[vertexIndex + 1] += new Vector3(shakeX, shakeY, 0f);
             vertexPositions[vertexIndex + 2] += new Vector3(shakeX, shakeY, 0f);
             vertexPositions[vertexIndex + 3] += new Vector3(shakeX, shakeY, 0f);
-            TextAnimatedUtility.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
+            TextRenderUtil.AddUpdateFlags(TMP_VertexDataUpdateFlags.Vertices);
         }
     }
 }

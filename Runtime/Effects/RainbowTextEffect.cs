@@ -39,7 +39,7 @@ namespace BP.TMPA
             vertexColors[vertexIndex + 2] = rainbowColor;
             vertexColors[vertexIndex + 3] = rainbowColor;
 
-            TextAnimatedUtility.AddUpdateFlags(TMP_VertexDataUpdateFlags.Colors32);
+            TextRenderUtil.AddUpdateFlags(TMP_VertexDataUpdateFlags.Colors32);
         }
     }
 }
