@@ -2,14 +2,15 @@ using System;
 
 namespace BP.TextMotionPro
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class TextEffectAttribute : Attribute
+    public class TextEffectDescriptor
     {
+        public Type Type { get; }
         public string Name { get; }
         public string Description { get; }
 
-        public TextEffectAttribute(string name, string description)
+        public TextEffectDescriptor(Type type, string name, string description)
         {
+            Type = type;
             Name = name;
             Description = description;
         }

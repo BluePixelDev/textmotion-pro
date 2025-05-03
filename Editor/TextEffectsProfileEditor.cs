@@ -1,69 +1,132 @@
+using BP.TextMotionPro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace BP.TMPA.Internal
+namespace BP.TextMotionProEditor
 {
-    [CustomEditor(typeof(TextEffectsProfile))]
+    [CustomEditor(typeof(MotionProfile))]
     public class TextEffectsProfileEditor : Editor
     {
-        private TextEffectsProfile profile;
+        [SerializeField] private VisualTreeAsset mainTreeAsset;
+        [SerializeField] private VisualTreeAsset effectTreeAsset;
+
+        private MotionProfile profile;
 
         private void OnEnable()
         {
-            profile = (TextEffectsProfile)target;
+            profile = (MotionProfile)target;
         }
 
-        public override void OnInspectorGUI()
+        public override VisualElement CreateInspectorGUI()
         {
-            base.OnInspectorGUI();
-            EditorGUI.BeginChangeCheck();
+            var root = new VisualElement();
+            mainTreeAsset.CloneTree(root);
 
-            var effects = profile.textEffects;
-            for (int i = 0; i < effects.Count; i++)
+            var effectsList = root.Q("effects-list");
+            UpdateEffectsList(effectsList);
+
+            // Setup the add button functionality.
+            var addButton = root.Q<Button>("add-button");
+            addButton.clicked += () =>
             {
-                var effect = effects[i];
+                var menu = new GenericMenu();
+                var availableTypes = GetAvailableEffectTypes();
+                foreach (var effectTypeName in availableTypes)
+                {
+                    string menuLabel = Type.GetType(effectTypeName).Name;
+                    menu.AddItem(new GUIContent(menuLabel), false, () =>
+                    {
+                        AddEffect(effectTypeName);
+                        UpdateEffectsList(effectsList);
+                    });
+                }
+                menu.ShowAsContext();
+            };
+
+            return root;
+        }
+
+        private void UpdateEffectsList(VisualElement parent)
+        {
+            parent.Clear();
+            foreach (var effect in profile.textEffects)
+            {
                 if (effect == null) continue;
 
-                EditorGUI.indentLevel++;
+                var serObject = new SerializedObject(effect);
+                var foldedProp = serObject.FindProperty("isFolded");
 
-                // Create a custom editor for each component type
-                var effectEditor = CreateEditor(effect);
-                if (effectEditor != null)
+                var entry = effectTreeAsset.CloneTree();
+                var effectLabel = entry.Q<Label>("label");
+                effectLabel.text = effect.GetType().Name;
+
+                var content = entry.Q("content");
+                content.style.display = foldedProp.boolValue ? DisplayStyle.None : DisplayStyle.Flex;
+                content.TrackPropertyValue(foldedProp, (prop) =>
                 {
-                    effectEditor.OnInspectorGUI();
-                    DestroyImmediate(effectEditor);
+                    content.style.display = prop.boolValue ? DisplayStyle.None : DisplayStyle.Flex;
+                });
+
+                DrawEditor(content, effect);
+
+                // Clicking the label toggles folding.
+                effectLabel.RegisterCallback<ClickEvent>(evt =>
+                {
+                    foldedProp.boolValue = !foldedProp.boolValue;
+                    serObject.ApplyModifiedProperties();
+                });
+
+                // Setup the options button to open a context menu with removal.
+                var optionsButton = entry.Q<ToolbarButton>("options-button");
+                if (optionsButton != null)
+                {
+                    optionsButton.clicked += () =>
+                    {
+                        var menu = new GenericMenu();
+                        menu.AddItem(new GUIContent("Remove"), false, () =>
+                        {
+                            RemoveEffect(effect.GetType());
+                            UpdateEffectsList(parent);
+                        });
+                        menu.ShowAsContext();
+                    };
                 }
 
-                // Add remove button for the component
-                if (GUILayout.Button("Remove Component"))
-                {
-                    RemoveEffect(effect.GetType());
-                    break;
-                }
-
-                EditorGUI.indentLevel--;
-            }
-
-            EditorGUILayout.Space();
-
-            var effectTypes = GetAvailableEffectTypes();
-            int selectedEffectIndex = EditorGUILayout.Popup("Add Effect", -1, effectTypes);
-
-            if (selectedEffectIndex >= 0)
-            {
-                Type selectedEffectType = Type.GetType(effectTypes[selectedEffectIndex]);
-                if (selectedEffectType != null)
-                {
-                    AddEffect(selectedEffectType);
-                }
+                parent.Add(entry);
             }
         }
 
-        private string[] GetAvailableEffectTypes() => TextEffectRegistry.TextEffects.Where(x => !profile.HasTextEffect(x.Type)).Select(x => x.Type.FullName).ToArray();
+        private void DrawEditor(VisualElement root, UnityEngine.Object target)
+        {
+            var editor = CreateEditor(target);
+            if (editor == null) return;
 
+            var editorContentElement = editor.CreateInspectorGUI();
+
+            if (editorContentElement != null)
+            {
+                root.Add(editorContentElement);
+            }
+            else
+            {
+                var imgui = new IMGUIContainer(() =>
+                {
+                    editor.OnInspectorGUI();
+                });
+                root.Add(imgui);
+            }
+            DestroyImmediate(editor);
+        }
+
+        private string[] GetAvailableEffectTypes() => TextEffectRegistry.TextEffects
+              .Where(x => !profile.HasTextEffect(x.Type))
+              .Select(x => x.Type.AssemblyQualifiedName)
+              .ToArray();
 
         private void RemoveEffect(Type type)
         {
@@ -73,8 +136,11 @@ namespace BP.TMPA.Internal
             UpdateAssets();
         }
 
-        private void AddEffect(Type effectType)
+        private void AddEffect(string effectTypeName)
         {
+            Type effectType = Type.GetType(effectTypeName);
+            if (effectType == null) return;
+
             Undo.RecordObject(profile, "Added Effect");
             profile.AddTextEffect(effectType);
             EditorUtility.SetDirty(profile);
@@ -83,10 +149,10 @@ namespace BP.TMPA.Internal
 
         public void UpdateAssets()
         {
-            //Path of the main file
+            // Path of the main file.
             string path = AssetDatabase.GetAssetPath(profile);
 
-            //Gets all components
+            // Gets all components.
             var effects = profile.GetAllTextEffects();
             var currentSubAssets = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
             var componentsToRemove = new List<UnityEngine.Object>(currentSubAssets);

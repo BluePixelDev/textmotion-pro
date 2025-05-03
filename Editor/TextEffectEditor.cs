@@ -1,8 +1,9 @@
+using BP.TextMotionPro;
 using UnityEditor;
 
-namespace BP.TMPA.Internal
+namespace BP.TextMotionProEditor
 {
-    [CustomEditor(typeof(TextEffectBase), true)]
+    [CustomEditor(typeof(TextEffect), true)]
     internal class TextEffectEditor : Editor
     {
         public override void OnInspectorGUI()

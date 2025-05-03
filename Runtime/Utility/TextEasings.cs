@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BP.TMPA
+namespace BP.TextMotionPro
 {
     public static class TextEasings
     {

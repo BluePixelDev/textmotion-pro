@@ -1,0 +1,18 @@
+{
+    "name": "BP.TextMotionEditor",
+    "rootNamespace": "BP.TextMotionEditor",
+    "references": [
+        "GUID:a87b08c5284c4f8448de7afcf0272260"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

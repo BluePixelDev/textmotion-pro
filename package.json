@@ -1,14 +1,23 @@
 {
-    "name": "com.blue.tmpanimated",
-    "displayName": "Text Mesh Pro - Animated",
-    "version": "0.0.1-preview",
-    "unity": "6000.0",
-    "dependencies": {
-
-    },
-    "license": "MIT",
-    "author": {
-        "name": "Bluepixel",
-        "email": "bluepixeldev@gmail.com"
-    }
+  "name": "com.bluepixel.textmorionpro",
+  "version": "0.0.1-preview",
+  "displayName": "TextMotionPro",
+  "description": "TextMotionPro is an animated text solution for Unity's TextMeshPro. Animate your text easily with customizable effects and smooth integration.",
+  "unity": "6000.0",
+  "author": {
+    "name": "Bluepixel",
+    "url": "https://github.com/Bluepixeldev"
+  },
+  "keywords": [
+    "unity",
+    "textmeshpro",
+    "animation",
+    "text",
+    "tmp",
+    "textmotion"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bluepixeldev/textmotion-pro.git"
+  }
 }
