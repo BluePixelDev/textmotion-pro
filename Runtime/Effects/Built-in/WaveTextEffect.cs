@@ -1,4 +1,4 @@
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     using TMPro;
     using UnityEngine;
@@ -17,7 +17,7 @@ namespace BP.TextMotionPro
 
             public override void ApplyEffect(MotionRenderContext context)
             {
-                var text = context.Renderer.TextComponent;
+                var text = context.TextMotion.TextComponent;
 
                 // Get the current character info
                 var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];

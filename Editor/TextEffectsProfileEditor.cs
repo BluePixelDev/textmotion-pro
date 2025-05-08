@@ -1,4 +1,4 @@
-using BP.TextMotionPro;
+using BP.TextMotion;
 using System;
 using System.Collections.Generic;
 using System.Linq;

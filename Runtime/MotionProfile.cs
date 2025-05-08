@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
     /// Manages a collection of text effects for TextMeshPro animations.
@@ -146,11 +146,11 @@ namespace BP.TextMotionPro
         /// Resets the context for all text effects in this profile.
         /// </summary>
         /// <param name="renderer">
-        /// The <see cref="TextMotionRenderer"/> instance associated with the text component.
+        /// The <see cref="TextMotionPro"/> instance associated with the text component.
         /// This method is typically called when the text component or its animation context is refreshed,
         /// ensuring that all cached states and per-component variables for each effect are reinitialized.
         /// </param>
-        public void ResetContext(TextMotionRenderer renderer)
+        public void ResetContext(TextMotionPro renderer)
         {
             foreach (var effect in textEffects)
             {

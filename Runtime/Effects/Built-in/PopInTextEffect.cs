@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     [TextEffect("PopIn", "Makes the text 'pop' in from a small size")]
     public class PopInTextEffect : TextEffect
@@ -12,7 +12,7 @@ namespace BP.TextMotionPro
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void ApplyEffect(MotionRenderContext context)
         {
-            var text = context.Renderer.TextComponent;
+            var text = context.TextMotion.TextComponent;
 
             var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];
             int materialIndex = characterInfo.materialReferenceIndex;

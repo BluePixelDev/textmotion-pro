@@ -1,12 +1,12 @@
-using BP.TextMotionPro;
+using BP.TextMotion;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BP.TextMotionEditor
 {
-    [CustomEditor(typeof(TextMotionRenderer)), CanEditMultipleObjects]
-    public class TextMotionRendererEditor : Editor
+    [CustomEditor(typeof(TextMotionPro)), CanEditMultipleObjects]
+    public class TextMotionProEditor : Editor
     {
         [SerializeField] private VisualTreeAsset treeAsset;
         public override VisualElement CreateInspectorGUI()

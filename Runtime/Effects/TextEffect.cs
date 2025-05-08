@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
     /// Base class for creating custom text animation and rendering effects for TextMesh Pro.
@@ -35,11 +35,11 @@ namespace BP.TextMotionPro
         /// Resets any component-level cached data or internal state for this text effect.
         /// </summary>
         /// <param name="renderer">
-        /// The <see cref="TextMotionRenderer"/> instance associated with the text component.
+        /// The <see cref="TextMotionPro"/> instance associated with the text component.
         /// Override this method in derived classes to clear any cached per-component state (such as initial positions,
         /// alpha values, or other animation parameters) so that the effect can be recalculated correctly when the text is updated.
         /// </param>
-        public virtual void ResetContext(TextMotionRenderer renderer) { }
+        public virtual void ResetContext(TextMotionPro renderer) { }
 
         /// <summary>
         /// Applies the text effect to the current character.

@@ -4,18 +4,18 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
-    /// <see cref="TextMotionRenderer"/> manages animated text effects on a <see cref="TMP_Text"/> component.
+    /// <see cref="TextMotionPro"/> manages animated text effects on a <see cref="TMP_Text"/> component.
     /// </summary>
+    [AddComponentMenu("MotionPro/Text Motion Pro")]
     [ExecuteAlways, RequireComponent(typeof(TMP_Text)), DisallowMultipleComponent]
-    public class TextMotionRenderer : MonoBehaviour, ITagValidator
+    public class TextMotionPro : MonoBehaviour
     {
         [SerializeField] private MotionProfile effectsProfile;
+        [SerializeField] private bool runInEditor = true;
         [SerializeField, Range(4, 120)] private float frameRate = 24f;
-
-        [Header("Animation")]
         [SerializeField] private Vector2Int visibilityRange;
 
         private TMP_Text textComponent;
@@ -51,29 +51,21 @@ namespace BP.TextMotionPro
         }
 
         /// <summary>
+        /// The currently used TextMotion profile.
+        /// </summary>
+        public MotionProfile Profile => effectsProfile;
+
+        /// <summary>
         /// Gets the preprocessor instance, initializing it if necessary.
         /// </summary>
-        private MotionPreprocessor PreProcessor => preprocessor ??= new MotionPreprocessor(this);
-
-        /// <summary>
-        /// Validates a tag using the current text effects profile.
-        /// </summary>
-        /// <param name="tagName">The tag name to validate.</param>
-        /// <param name="attributes">The tag attributes.</param>
-        /// <returns>True if the tag is valid; otherwise, false.</returns>
-        public bool Validate(string tagName, string attributes)
+        private MotionPreprocessor PreProcessor => preprocessor ??= CreatePreProcessor();
+        private MotionPreprocessor CreatePreProcessor()
         {
-            return effectsProfile != null &&
-                   effectsProfile.TryGetTextEffectWithTag(tagName, out var effect) &&
-                   effect.ValidateTag(tagName, attributes);
+            var validator = new MotionValidator(this);
+            var parser = new MotionParser(validator);
+            return new MotionPreprocessor(parser);
         }
 
-        #region Unity Lifecycle
-
-        /// <summary>
-        /// Called when the component is enabled.
-        /// Sets up the preprocessor, subscribes to text change events, and forces an initial text render.
-        /// </summary>
         private void OnEnable()
         {
             animationTime = 0;
@@ -81,19 +73,15 @@ namespace BP.TextMotionPro
             TextComponent.textPreprocessor = PreProcessor;
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(OnTextChange);
 
-            // Force update to generate initial mesh data.
-            ForceTextRender();
+            TextComponent.ForceMeshUpdate(true);
+            CacheMeshInfo();
+            RenderTextEffects();
 
 #if UNITY_EDITOR
             EditorApplication.update -= EditorUpdate;
             EditorApplication.update += EditorUpdate;
 #endif
         }
-
-        /// <summary>
-        /// Called when the component is disabled.
-        /// Cleans up event subscriptions and resets the text preprocessor.
-        /// </summary>
         private void OnDisable()
         {
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(OnTextChange);
@@ -105,10 +93,6 @@ namespace BP.TextMotionPro
 #endif
         }
 
-        /// <summary>
-        /// Called when properties are modified in the Inspector.
-        /// Forces a text render if the effects profile changes.
-        /// </summary>
         private void OnValidate()
         {
             if (prevProfile != effectsProfile)
@@ -129,26 +113,22 @@ namespace BP.TextMotionPro
             MotionUpdate();
         }
 
-        #endregion
-
-        #region Editor Update Methods
-
         /// <summary>
         /// Called by the Editor to update the component when it is selected.
         /// </summary>
         private void EditorUpdate()
         {
+            if (!runInEditor) return;
+            if (Application.isPlaying) return;
+
 #if UNITY_EDITOR
             if (!Selection.gameObjects.Contains(gameObject))
                 return;
 
             MotionUpdate();
-
-            if (!Application.isPlaying)
-                EditorApplication.QueuePlayerLoopUpdate();
+            EditorApplication.QueuePlayerLoopUpdate();
 #endif
         }
-        #endregion
 
         /// <summary>
         /// Called when the text changes.
@@ -172,7 +152,6 @@ namespace BP.TextMotionPro
 
             return data;
         }
-
         private void UpdateCharacterVisibility(int index)
         {
             bool isInRange = index >= visibilityRange.x && index <= visibilityRange.y;
@@ -196,7 +175,7 @@ namespace BP.TextMotionPro
 
         }
 
-        #region Update Methods
+
         /// <summary>
         /// Advances the animation based on the set frame rate.
         /// Consolidates time calculations and triggers a re-render when needed.
@@ -247,12 +226,17 @@ namespace BP.TextMotionPro
 
                 UpdateCharacterVisibility(character.index);
 
-                // Retrieve the effects tags for this character index.
+                if (characterData.TryGetValue(character.index, out var characterMotionData))
+                {
+                    if (!characterMotionData.isVisible)
+                    {
+                        return;
+                    }
+                }
+
                 var tags = PreProcessor.GetTagEffectsAtIndex(character.index);
                 if (tags == null)
                     continue;
-
-                //Debug.Log("Processed Character: " + character.character + " | " + character.index);
 
                 // Applies each tag in the current range
                 foreach (var tag in tags)
@@ -274,28 +258,11 @@ namespace BP.TextMotionPro
             TextComponent.UpdateVertexData(MotionRenderFlags.Pop());
             MotionUtility.UpdateMeshInfo(TextComponent, ref cachedMeshInfo);
         }
-        #endregion
-
-        #region TextMeshPro Utility
-
-        /// <summary>
-        /// Forces an update of the text mesh and re-applies text effects.
-        /// </summary>
-        private void ForceTextRender()
-        {
-            TextComponent.ForceMeshUpdate(true);
-            CacheMeshInfo();
-            RenderTextEffects();
-        }
 
         /// <summary>
         /// Caches the current mesh info from the TMP_Text component.
         /// Clears character timing data if there is no text.
         /// </summary>
-        private void CacheMeshInfo()
-        {
-            cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
-        }
-        #endregion
+        private void CacheMeshInfo() => cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
     }
 }

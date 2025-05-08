@@ -1,6 +1,6 @@
 using System;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class TextEffectAttribute : Attribute

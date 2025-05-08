@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     [TextEffect("Shake", "Makes the text shake")]
     public class ShakeTextEffect : TextEffect
@@ -13,7 +13,7 @@ namespace BP.TextMotionPro
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void ApplyEffect(MotionRenderContext context)
         {
-            var text = context.Renderer.TextComponent;
+            var text = context.TextMotion.TextComponent;
             var index = context.CharacterIndex;
 
             var characterInfo = text.textInfo.characterInfo[index];

@@ -1,7 +1,7 @@
 using System;
 using TMPro;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
     /// Provides utility methods for managing vertex data and array operations.

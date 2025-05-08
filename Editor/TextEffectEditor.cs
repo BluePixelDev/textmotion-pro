@@ -1,4 +1,4 @@
-using BP.TextMotionPro;
+using BP.TextMotion;
 using UnityEditor;
 
 namespace BP.TextMotionProEditor

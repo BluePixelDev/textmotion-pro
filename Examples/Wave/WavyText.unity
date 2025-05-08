@@ -413,7 +413,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.1, y: 0}
   m_SizeDelta: {x: 1204, y: 50.881012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &618984856
@@ -425,12 +425,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 618984854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5252b9e9500fe784792b58afd0c1c7a9, type: 3}
+  m_Script: {fileID: 11500000, guid: af005ee1e1f8b6243aad96c0ad0b7908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   effectsProfile: {fileID: 11400000, guid: 2773795a3a4cce245a858456dcc49489, type: 2}
-  frameRate: 24
-  visibilityRange: {x: 0, y: 0}
+  runInEditor: 1
+  frameRate: 22.8
+  visibilityRange: {x: 0, y: 500}
 --- !u!114 &618984857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +452,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color=orange>WAAAAA<wave>AAAAAAAsdsdAAAAAAAAAVEWhat?lolololoss<shake>dsdsdsdsdsd<rainbow>sdweeeweee</shake>wweeeeewewewe<wave><color=red>sdsdsds
+  m_text: <color=red><wave><wave>1234567<shake>8912345s{spin}dsdsdsddtesting</wave></shake>weee</wave></shake>is
+    nicesdsdsddsdsdsdsdsdsdd
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -516,7 +518,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 408.84616, y: 0, z: 0, w: -110.60398}
+  m_margin: {x: 423.5107, y: 4.5584183, z: 0, w: -109.09822}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -530,6 +532,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618984854}
   m_CullTransparentMesh: 1
+--- !u!1 &676205163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676205164}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &676205164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676205163}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 54.782436, y: -9.73213, z: 85.476295}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -537,3 +570,4 @@ SceneRoots:
   - {fileID: 569917676}
   - {fileID: 496574547}
   - {fileID: 488937091}
+  - {fileID: 676205164}

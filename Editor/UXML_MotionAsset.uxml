@@ -2,7 +2,6 @@
     <engine:Template name="UXML_EffectEntry" src="project://database/Assets/TextMotion%20Pro/Editor/UXML_EffectEntry.uxml?fileID=9197481963319205126&amp;guid=93f36a28fa20e7c47b7fddaffe2c77bc&amp;type=3#UXML_EffectEntry" />
     <Style src="project://database/Assets/TextMotion%20Pro/Editor/USS_MotionAsset.uss?fileID=7433441132597879392&amp;guid=78f264ab9f905c54baea00c777d4582a&amp;type=3#USS_MotionAsset" />
     <engine:VisualElement style="flex-grow: 1; margin-right: -6px; margin-left: -14px;">
-        <engine:Label text="Motion Asset" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 16px;" />
         <engine:VisualElement name="effects-list" style="flex-grow: 1;">
             <engine:Instance template="UXML_EffectEntry" name="UXML_EffectEntry" />
         </engine:VisualElement>

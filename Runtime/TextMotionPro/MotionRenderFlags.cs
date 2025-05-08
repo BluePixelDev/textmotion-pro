@@ -1,6 +1,6 @@
 using TMPro;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     public static class MotionRenderFlags
     {

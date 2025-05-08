@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     [AddComponentMenu("Mesh/TMPA/Type Writer")]
     public class TypeWriter : MonoBehaviour

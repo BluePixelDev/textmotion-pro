@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     [TextEffect("Rainbow", "Makes the text rainbowy")]
     public sealed class RainbowTextEffect : TextEffect
@@ -15,7 +15,7 @@ namespace BP.TextMotionPro
         public sealed override bool ValidateTag(string tag, string attributes) => true;
         public sealed override void ApplyEffect(MotionRenderContext context)
         {
-            var text = context.Renderer.TextComponent;
+            var text = context.TextMotion.TextComponent;
             var textInfo = text.textInfo;
             var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];
 

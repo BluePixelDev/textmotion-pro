@@ -1,10 +1,10 @@
 {
-    "name": "BP.TextMotionProTests",
-    "rootNamespace": "BP.TextMotionProTests",
+    "name": "BP.TextMotionTests",
+    "rootNamespace": "BP.TextMotionTests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "BP.TextMotionPro"
+        "BP.TextMotion"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

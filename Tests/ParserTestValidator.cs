@@ -1,8 +1,8 @@
-using BP.TextMotionPro;
+using BP.TextMotion;
 
-namespace BP.TextMotionProTests
+namespace BP.TextMotionTests
 {
-    public class TagParserValidator : ITagValidator
+    public class ParserTestValidator : ITagValidator
     {
         public bool Validate(string tagName, string attributes)
         {

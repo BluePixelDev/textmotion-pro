@@ -1,6 +1,6 @@
 using System;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     public class TextEffectDescriptor
     {

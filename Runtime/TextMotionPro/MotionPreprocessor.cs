@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
     /// Preprocesses text for <see cref="MotionPreprocessor"/> by removing tags and parsing tag ranges.
@@ -21,7 +21,7 @@ namespace BP.TextMotionPro
         public string ProcessedText { get; private set; }
 
         // Instance of the tag parser used for processing.
-        private readonly MotionParser tagParser;
+        private readonly IParser parser;
         // Cached collection of tag ranges from the parsed text.
         private IReadOnlyCollection<TagRange> cachedRanges;
         // Cached tag range for quick lookup when retrieving tag effects.
@@ -31,9 +31,9 @@ namespace BP.TextMotionPro
         /// Initializes a new instance of the <see cref="MotionPreprocessor"/> class.
         /// </summary>
         /// <param name="validator">An instance of <see cref="ITagValidator"/> used for validating tags.</param>
-        public MotionPreprocessor(ITagValidator validator)
+        public MotionPreprocessor(IParser parser)
         {
-            tagParser = new MotionParser(validator);
+            this.parser = parser;
         }
 
         /// <summary>
@@ -54,8 +54,9 @@ namespace BP.TextMotionPro
             // Reprocess only if the input has changed or cache is empty.
             if (inputText != LastInputText || cachedRanges == null || cachedRange == null)
             {
-                ProcessedText = tagParser.RemoveTags(inputText);
-                cachedRanges = tagParser.Parse(inputText);
+                var result = parser.Parse(inputText);
+                ProcessedText = result.CleanText;
+                cachedRanges = result.Ranges;
                 LastInputText = inputText;
             }
 
@@ -70,7 +71,7 @@ namespace BP.TextMotionPro
         /// A read-only collection of <see cref="TagData"/> affecting the specified index,
         /// or <c>null</c> if no range applies.
         /// </returns>
-        public IReadOnlyCollection<TagData> GetTagEffectsAtIndex(int index)
+        public IReadOnlyList<TokenData> GetTagEffectsAtIndex(int index)
         {
             UpdateCacheIfNeeded(index);
             if (cachedRange == null)

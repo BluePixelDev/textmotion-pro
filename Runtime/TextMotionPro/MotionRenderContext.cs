@@ -1,4 +1,4 @@
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     /// <summary>
     /// Provides a thread-safe, reusable context for text rendering and animation operations.
@@ -8,7 +8,7 @@ namespace BP.TextMotionPro
         /// <summary>
         /// Gets the tag data associated with the current rendering context.
         /// </summary>
-        public TagData TagData { get; private set; }
+        public TokenData TagData { get; private set; }
 
         /// <summary>
         /// Total elapsed time of the text animation.
@@ -21,9 +21,9 @@ namespace BP.TextMotionPro
         public CharacterData CharacterData { get; private set; }
 
         /// <summary>
-        /// Gets the TextMotionRenderer component associated with this context.
+        /// Gets the <see cref="TextMotionPro"/> component associated with this context.
         /// </summary>
-        public TextMotionRenderer Renderer { get; private set; }
+        public TextMotionPro TextMotion { get; private set; }
 
         /// <summary>
         /// The index of the character in the entire character array.
@@ -38,13 +38,13 @@ namespace BP.TextMotionPro
         /// <param name="characterData">Data associated with each character.</param>
         /// <param name="characterIndex">Index of the character in the full character array.</param>
         /// <param name="animationTime">Total animation time.</param>
-        public void Reset(TextMotionRenderer component, TagData tagData, CharacterData characterData, int characterIndex, float animationTime = 0)
+        public void Reset(TextMotionPro component, TokenData tagData, CharacterData characterData, int characterIndex, float animationTime = 0)
         {
             TagData = tagData;
             CharacterData = characterData;
             CharacterIndex = characterIndex; // Store the current character’s index
             AnimationTime = animationTime;
-            Renderer = component;
+            TextMotion = component;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace BP.TextMotionPro
         {
             TagData = null;
             CharacterData = null;
-            Renderer = null;
-            CharacterIndex = -1; // Reset index
+            TextMotion = null;
+            CharacterIndex = -1;
             AnimationTime = 0;
         }
     }

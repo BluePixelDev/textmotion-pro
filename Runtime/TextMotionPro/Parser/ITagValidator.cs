@@ -1,4 +1,4 @@
-namespace BP.TextMotionPro
+namespace BP.TextMotion
 {
     public interface ITagValidator
     {

@@ -30,9 +30,9 @@
 - Right-click in the Project window → **Create → textmotion-pro → MotionProfile**
 - Add or configure `TextEffect` assets to this profile.
 
-### 2. Attach `TextMotionRenderer`
+### 2. Attach `TextMotionPro`
 
-- Add the `TextMotionRenderer` component to a GameObject with a `TMP_Text` component.
+- Add the `TextMotionPro` component to a GameObject with a `TMP_Text` component.
 - Assign a `MotionProfile` to the renderer.
 
 ### 3. Use Tags in Text
