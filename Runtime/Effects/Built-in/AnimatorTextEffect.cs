@@ -24,7 +24,7 @@ namespace BP.TextMotion
         [SerializeField] private float angle;
         [SerializeField] private AnimatorFlow animatorFlow;
 
-        public override string EffectTag => tag;
+        public override string Tag => tag;
         public override bool IsActive() => !string.IsNullOrEmpty(tag);
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void ApplyEffect(MotionRenderContext context)

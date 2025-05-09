@@ -12,23 +12,21 @@ namespace BP.TextMotion
     [CreateAssetMenu(fileName = "NewMotionProfile", menuName = "TextMotionPro/MotionProfile")]
     public class MotionProfile : ScriptableObject
     {
+        [SerializeField] private List<TextEffect> textEffects = new();
+        private readonly Dictionary<string, TextEffect> cache = new();
+
         /// <summary>
-        /// List of all text effects in this profile.
+        /// Invoked whenever the text effects list changes (added, removed, etc).
         /// </summary>
-        [Tooltip("Collection of text effects available in this profile")]
-        public List<TextEffect> textEffects = new();
+        public event Action TextEffectsChanged;
 
-        private readonly Dictionary<string, TextEffect> tagEffectCache = new();
-        [NonSerialized] public bool isDirty = false;
-
+        /// <summary>
+        /// Invoked whenever the text effects list changes (added, removed, etc).
+        /// </summary>
         private void OnEnable()
         {
-            tagEffectCache.Clear();
+            cache.Clear();
             textEffects.RemoveAll(x => x == null);
-        }
-        public void Reset()
-        {
-            isDirty = true;
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace BP.TextMotion
 
             // Add to effects list and mark as dirty
             textEffects.Add(component);
-            isDirty = true;
+            TextEffectsChanged?.Invoke();
             return component;
         }
 
@@ -78,8 +76,17 @@ namespace BP.TextMotion
         /// <param name="type">The type of text effect to remove.</param>
         public void RemoveTextEffect(Type type)
         {
-            textEffects.RemoveAll(x => x.GetType().Equals(type));
-            isDirty = true;
+            var textEffectsToRemove = textEffects.Where(x => x.GetType().Equals(type)).ToList();
+            foreach (var effect in textEffectsToRemove)
+            {
+                textEffects.Remove(effect);
+                if (cache.ContainsKey(effect.Tag))
+                {
+                    cache.Remove(effect.Tag);
+                }
+            }
+            if (textEffectsToRemove.Count > 0)
+                TextEffectsChanged?.Invoke();
         }
 
         /// <summary>
@@ -104,10 +111,10 @@ namespace BP.TextMotion
         public bool HasTextEffectWithTag(string tag)
         {
             // Check cache first for performance
-            if (tagEffectCache.TryGetValue(tag, out var cachedEffect))
+            if (cache.TryGetValue(tag, out var cachedEffect))
                 return cachedEffect != null;
 
-            return textEffects.Any(x => x.EffectTag == tag);
+            return textEffects.Any(x => x.Tag == tag);
         }
 
         public bool TryGetTextEffectWithTag(string tag, out TextEffect textEffect)
@@ -131,13 +138,13 @@ namespace BP.TextMotion
         public TextEffect GetTextEffectWithTag(string tag)
         {
             // Looks up the tag in cache
-            if (tagEffectCache.TryGetValue(tag, out var cached))
+            if (cache.TryGetValue(tag, out var cached))
                 return cached;
 
             // Find effect and cache it
-            var effect = textEffects.FirstOrDefault(x => x.EffectTag == tag);
+            var effect = textEffects.FirstOrDefault(x => x.Tag == tag);
             if (effect != null)
-                tagEffectCache[tag] = effect;
+                cache[tag] = effect;
 
             return effect;
         }

@@ -9,7 +9,7 @@ namespace BP.TextMotion
         [SerializeField] private float shakeAmount = 2f;
         [SerializeField] private float randomShakeInterval = 0.1f;
 
-        public override string EffectTag => "shake";
+        public override string Tag => "shake";
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void ApplyEffect(MotionRenderContext context)
         {

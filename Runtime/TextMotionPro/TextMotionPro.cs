@@ -13,8 +13,8 @@ namespace BP.TextMotion
     [ExecuteAlways, RequireComponent(typeof(TMP_Text)), DisallowMultipleComponent]
     public class TextMotionPro : MonoBehaviour
     {
-        [SerializeField] private MotionProfile effectsProfile;
-        [SerializeField] private bool runInEditor = true;
+        [SerializeField] private MotionProfile profile;
+        [SerializeField] private MotionUpdateMode updateMode;
         [SerializeField, Range(4, 120)] private float frameRate = 24f;
         [SerializeField] private Vector2Int visibilityRange;
 
@@ -31,7 +31,8 @@ namespace BP.TextMotion
         private readonly Dictionary<int, CharacterData> characterData = new();
 
         /// <summary>
-        /// Gets the TMP_Text component attached to this GameObject.
+        /// Gets the <see cref="TMP_Text"/> component attached to this GameObject.
+        /// Attempts to cache the reference on first access. Logs an error and disables the component if not found.
         /// </summary>
         public TMP_Text TextComponent
         {
@@ -51,14 +52,15 @@ namespace BP.TextMotion
         }
 
         /// <summary>
-        /// The currently used TextMotion profile.
+        /// Gets the active motion profile which defines how text effects are applied.
         /// </summary>
-        public MotionProfile Profile => effectsProfile;
+        public MotionProfile Profile => profile;
 
         /// <summary>
-        /// Gets the preprocessor instance, initializing it if necessary.
+        /// Gets the motion preprocessor instance, used to clean and parse input text before applying motion effects.
+        /// Initializes it lazily if not already created.
         /// </summary>
-        private MotionPreprocessor PreProcessor => preprocessor ??= CreatePreProcessor();
+        public MotionPreprocessor PreProcessor => preprocessor ??= CreatePreProcessor();
         private MotionPreprocessor CreatePreProcessor()
         {
             var validator = new MotionValidator(this);
@@ -84,6 +86,9 @@ namespace BP.TextMotion
         }
         private void OnDisable()
         {
+            if (profile)
+                profile.TextEffectsChanged -= TextEffectsChanged;
+
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(OnTextChange);
             TextComponent.textPreprocessor = null;
             TextComponent.ForceMeshUpdate(true, true);
@@ -92,19 +97,20 @@ namespace BP.TextMotion
             EditorApplication.update -= EditorUpdate;
 #endif
         }
-
         private void OnValidate()
         {
-            if (prevProfile != effectsProfile)
+            if (profile)
             {
-                prevProfile = effectsProfile;
+                profile.TextEffectsChanged -= TextEffectsChanged;
+                profile.TextEffectsChanged += TextEffectsChanged;
+            }
+
+            if (prevProfile != profile)
+            {
+                prevProfile = profile;
                 TextComponent.ForceMeshUpdate(true, true);
             }
         }
-
-        /// <summary>
-        /// Updates the animation each frame.
-        /// </summary>
         private void Update()
         {
             if (!Application.isPlaying)
@@ -112,35 +118,45 @@ namespace BP.TextMotion
 
             MotionUpdate();
         }
-
-        /// <summary>
-        /// Called by the Editor to update the component when it is selected.
-        /// </summary>
-        private void EditorUpdate()
-        {
-            if (!runInEditor) return;
-            if (Application.isPlaying) return;
-
-#if UNITY_EDITOR
-            if (!Selection.gameObjects.Contains(gameObject))
-                return;
-
-            MotionUpdate();
-            EditorApplication.QueuePlayerLoopUpdate();
-#endif
-        }
-
-        /// <summary>
-        /// Called when the text changes.
-        /// Updates the cached mesh info and re-renders text effects.
-        /// </summary>
-        /// <param name="obj">The object that changed.</param>
+        private void TextEffectsChanged() => TextComponent.ForceMeshUpdate(true, true);
         private void OnTextChange(Object obj)
         {
             if (obj != TextComponent) return;
             CacheMeshInfo();
             RenderTextEffects();
         }
+
+        private void EditorUpdate()
+        {
+            if (updateMode == MotionUpdateMode.Runtime) return;
+            if (Application.isPlaying) return;
+
+#if UNITY_EDITOR
+            if (!Selection.gameObjects.Contains(gameObject) && updateMode == MotionUpdateMode.SelectedInEditor)
+                return;
+
+            MotionUpdate();
+            EditorApplication.QueuePlayerLoopUpdate();
+#endif
+        }
+        private void MotionUpdate()
+        {
+            if (TextComponent == null || profile == null)
+                return;
+
+            elapsedTime += Time.deltaTime;
+            float targetUpdateInterval = 1f / frameRate;
+            float timeSinceLastUpdate = elapsedTime - lastUpdateTime;
+
+            if (timeSinceLastUpdate >= targetUpdateInterval)
+            {
+                int updateCount = Mathf.FloorToInt(timeSinceLastUpdate / targetUpdateInterval);
+                animationTime += updateCount * targetUpdateInterval;
+                RenderTextEffects();
+                lastUpdateTime = elapsedTime;
+            }
+        }
+        private void CacheMeshInfo() => cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
 
         private CharacterData GetCharacterDataOrAdd(int index)
         {
@@ -174,37 +190,9 @@ namespace BP.TextMotion
             }
 
         }
-
-
-        /// <summary>
-        /// Advances the animation based on the set frame rate.
-        /// Consolidates time calculations and triggers a re-render when needed.
-        /// </summary>
-        private void MotionUpdate()
-        {
-            if (TextComponent == null || effectsProfile == null)
-                return;
-
-            elapsedTime += Time.deltaTime;
-            float targetUpdateInterval = 1f / frameRate;
-            float timeSinceLastUpdate = elapsedTime - lastUpdateTime;
-
-            if (timeSinceLastUpdate >= targetUpdateInterval)
-            {
-                int updateCount = Mathf.FloorToInt(timeSinceLastUpdate / targetUpdateInterval);
-                animationTime += updateCount * targetUpdateInterval;
-                RenderTextEffects();
-                lastUpdateTime = elapsedTime;
-            }
-        }
-
-        /// <summary>
-        /// Iterates over all characters in the text and applies active text effects.
-        /// Tracks the time each character has been visible to drive effect animations.
-        /// </summary>
         private void RenderTextEffects()
         {
-            if (TextComponent == null || effectsProfile == null)
+            if (TextComponent == null || profile == null)
                 return;
 
             // If there is no text, clear the visibility timing data.
@@ -214,7 +202,7 @@ namespace BP.TextMotion
                 return;
             }
 
-            effectsProfile.ResetContext(this);
+            profile.ResetContext(this);
             var charInfo = TextComponent.textInfo.characterInfo;
             for (int i = 0; i < charInfo.Length; i++)
             {
@@ -225,7 +213,6 @@ namespace BP.TextMotion
                     continue;
 
                 UpdateCharacterVisibility(character.index);
-
                 if (characterData.TryGetValue(character.index, out var characterMotionData))
                 {
                     if (!characterMotionData.isVisible)
@@ -234,14 +221,14 @@ namespace BP.TextMotion
                     }
                 }
 
-                var tags = PreProcessor.GetTagEffectsAtIndex(character.index);
+                var tags = PreProcessor.GetTagsAt(character.index);
                 if (tags == null)
                     continue;
 
                 // Applies each tag in the current range
                 foreach (var tag in tags)
                 {
-                    if (!effectsProfile.TryGetTextEffectWithTag(tag.Name, out var textEffect))
+                    if (!profile.TryGetTextEffectWithTag(tag.Name, out var textEffect))
                         continue;
 
                     renderContext.Reset(
@@ -258,11 +245,5 @@ namespace BP.TextMotion
             TextComponent.UpdateVertexData(MotionRenderFlags.Pop());
             MotionUtility.UpdateMeshInfo(TextComponent, ref cachedMeshInfo);
         }
-
-        /// <summary>
-        /// Caches the current mesh info from the TMP_Text component.
-        /// Clears character timing data if there is no text.
-        /// </summary>
-        private void CacheMeshInfo() => cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
     }
 }

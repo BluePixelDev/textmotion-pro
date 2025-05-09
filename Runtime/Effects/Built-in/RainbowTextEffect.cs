@@ -9,7 +9,7 @@ namespace BP.TextMotion
     {
         [SerializeField] private float test = 1;
 
-        public sealed override string EffectTag => "rainbow";
+        public sealed override string Tag => "rainbow";
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override bool ValidateTag(string tag, string attributes) => true;

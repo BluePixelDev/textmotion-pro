@@ -8,7 +8,7 @@ namespace BP.TextMotion
     {
         [SerializeField] private float popInDuration = 0.5f;
 
-        public override string EffectTag => "popin";
+        public override string Tag => "popin";
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void ApplyEffect(MotionRenderContext context)
         {

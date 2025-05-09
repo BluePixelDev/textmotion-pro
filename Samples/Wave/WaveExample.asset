@@ -148,6 +148,21 @@ MonoBehaviour:
     m_RotationOrder: 4
   angle: 0
   animatorFlow: 0
+--- !u!114 &-6486097950515064909
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: ShakeTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
 --- !u!114 &-767559779766164984
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -176,10 +191,22 @@ MonoBehaviour:
   m_Name: WaveExample
   m_EditorClassIdentifier: 
   textEffects:
-  - {fileID: 7321883392344451743}
-  - {fileID: -767559779766164984}
-  - {fileID: 3846580081282660097}
-  - {fileID: 2143633582836559780}
+  - {fileID: 9085725105304512012}
+--- !u!114 &1354213985244841776
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: ShakeTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
 --- !u!114 &2143633582836559780
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -238,3 +265,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFolded: 0
   test: 1
+--- !u!114 &9085725105304512012
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f9e90e663d5ba4d836b916ca82d160, type: 3}
+  m_Name: WaveTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  frequency: 2
+  amplitude: 3
+  offset: 20

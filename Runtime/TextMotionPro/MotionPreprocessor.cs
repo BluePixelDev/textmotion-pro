@@ -8,23 +8,11 @@ namespace BP.TextMotion
     /// Preprocesses text for <see cref="MotionPreprocessor"/> by removing tags and parsing tag ranges.
     /// Caches results to avoid redundant processing.
     /// </summary>
-    internal class MotionPreprocessor : ITextPreprocessor
+    public class MotionPreprocessor : ITextPreprocessor
     {
-        /// <summary>
-        /// Gets the input text that was last processed.
-        /// </summary>
-        public string LastInputText { get; private set; }
-
-        /// <summary>
-        /// Gets the processed text with tags removed.
-        /// </summary>
-        public string ProcessedText { get; private set; }
-
-        // Instance of the tag parser used for processing.
+        private string lastInput = null;
         private readonly IParser parser;
-        // Cached collection of tag ranges from the parsed text.
-        private IReadOnlyCollection<TagRange> cachedRanges;
-        // Cached tag range for quick lookup when retrieving tag effects.
+        private ParseResult result;
         private TagRange cachedRange;
 
         /// <summary>
@@ -47,20 +35,18 @@ namespace BP.TextMotion
             if (string.IsNullOrEmpty(inputText))
             {
                 cachedRange = null;
-                cachedRanges = null;
+                result = null;
                 return string.Empty;
             }
 
             // Reprocess only if the input has changed or cache is empty.
-            if (inputText != LastInputText || cachedRanges == null || cachedRange == null)
+            if (inputText != lastInput || result == null || cachedRange == null)
             {
-                var result = parser.Parse(inputText);
-                ProcessedText = result.CleanText;
-                cachedRanges = result.Ranges;
-                LastInputText = inputText;
+                result = parser.Parse(inputText);
+                lastInput = inputText;
             }
 
-            return ProcessedText;
+            return result.CleanText;
         }
 
         /// <summary>
@@ -68,10 +54,10 @@ namespace BP.TextMotion
         /// </summary>
         /// <param name="index">The index within the processed text.</param>
         /// <returns>
-        /// A read-only collection of <see cref="TagData"/> affecting the specified index,
+        /// A read-only collection of <see cref="TokenData"/> affecting the specified index,
         /// or <c>null</c> if no range applies.
         /// </returns>
-        public IReadOnlyList<TokenData> GetTagEffectsAtIndex(int index)
+        public IReadOnlyList<TokenData> GetTagsAt(int index)
         {
             UpdateCacheIfNeeded(index);
             if (cachedRange == null)
@@ -79,14 +65,9 @@ namespace BP.TextMotion
 
             return cachedRange.Tags;
         }
-
-        /// <summary>
-        /// Updates the cached tag range if the specified index falls outside the current cached range.
-        /// </summary>
-        /// <param name="index">The character index to check.</param>
         private void UpdateCacheIfNeeded(int index)
         {
-            if (cachedRanges == null)
+            if (result.Ranges == null)
                 return;
 
             // If the current cached range covers the index, no need to update.
@@ -94,18 +75,27 @@ namespace BP.TextMotion
                 return;
 
             // Otherwise, search for the appropriate range.
-            cachedRange = cachedRanges.FirstOrDefault(range => range.StartIndex <= index && index <= range.EndIndex);
+            cachedRange = result.Ranges.FirstOrDefault(range => range.StartIndex <= index && index <= range.EndIndex);
         }
 
-        /// <summary>
-        /// Clears all cached data so that the next call to preprocess text will reprocess it.
-        /// </summary>
+        public TokenData GetActionAt(int index)
+        {
+            foreach (var tokenData in result.Actions)
+            {
+                if (tokenData.Position == index)
+                {
+                    return tokenData;
+                }
+            }
+
+            return null;
+        }
+
         public void ClearCache()
         {
-            LastInputText = string.Empty;
-            ProcessedText = string.Empty;
             cachedRange = null;
-            cachedRanges = null;
+            result = null;
+            lastInput = null;
         }
     }
 }

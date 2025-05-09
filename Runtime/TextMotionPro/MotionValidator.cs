@@ -13,7 +13,10 @@ namespace BP.TextMotion
             if (string.IsNullOrEmpty(tagName))
                 return false;
 
-            if (TmpTagFilter.IsReserved(tagName))
+            if (TagFilter.IsBuiltIn(tagName))
+                return true;
+
+            if (TagFilter.IsReserved(tagName))
                 return false;
 
             var profile = textMotion.Profile;

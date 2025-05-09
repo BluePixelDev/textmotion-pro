@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <editor:ObjectField label="Profile" binding-path="effectsProfile" type="BP.TextMotion.MotionProfile, BP.TextMotion" />
-    <engine:Toggle label="Run in Editor" binding-path="runInEditor" />
+    <editor:ObjectField label="Profile" binding-path="profile" type="BP.TextMotion.MotionProfile, BP.TextMotion" />
+    <engine:EnumField label="Update Mode" value="Always" type="BP.TextMotion.MotionUpdateMode, BP.TextMotion" binding-path="updateMode" />
     <engine:Slider label="Frame Rate" value="42" high-value="100" show-input-field="true" binding-path="frameRate" />
     <engine:Vector2IntField label="Visibility" binding-path="visibilityRange" />
 </engine:UXML>

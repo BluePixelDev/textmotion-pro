@@ -19,5 +19,17 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Bluepixeldev/textmotion-pro.git"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Wave", 
+      "descriptions": "Showcase of the built-in wave effect",
+      "path": "Samples~/Wave"
+    },
+      {
+      "displayName": "Shake", 
+      "descriptions": "Showcase of the built-in Shake effect",
+      "path": "Samples~/Shake"
+    }
+  ]
 }

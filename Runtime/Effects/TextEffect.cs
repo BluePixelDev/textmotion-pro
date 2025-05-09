@@ -15,7 +15,7 @@ namespace BP.TextMotion
         /// <summary>
         /// Gets the unique identifier tag for this text effect.
         /// </summary>
-        public abstract string EffectTag { get; }
+        public abstract string Tag { get; }
 
         /// <summary>
         /// Validates the attributes provided for the text effect.

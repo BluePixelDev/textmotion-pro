@@ -54,7 +54,7 @@ namespace BP.TextMotionProEditor
         private void UpdateEffectsList(VisualElement parent)
         {
             parent.Clear();
-            foreach (var effect in profile.textEffects)
+            foreach (var effect in profile.GetAllTextEffects())
             {
                 if (effect == null) continue;
 

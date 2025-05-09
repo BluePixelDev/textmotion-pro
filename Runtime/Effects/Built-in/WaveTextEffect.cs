@@ -12,11 +12,12 @@ namespace BP.TextMotion
             [SerializeField] private float amplitude = 3f;
             [SerializeField] private float offset = 20f;
 
-            public override string EffectTag => "wave";
+            public override string Tag => "wave";
             public override bool ValidateTag(string tag, string attributes) => true;
 
             public override void ApplyEffect(MotionRenderContext context)
             {
+                int.TryParse(context.TagData.Value, out int waveStrength);
                 var text = context.TextMotion.TextComponent;
 
                 // Get the current character info
@@ -26,7 +27,7 @@ namespace BP.TextMotion
 
                 // Calculate the sine wave offset based on the animation time
                 float funcOffset = context.AnimationTime * frequency + context.CharacterIndex * Mathf.Deg2Rad * offset;
-                float waveOffset = Mathf.Sin(funcOffset) * amplitude;  // Sine wave effect
+                float waveOffset = Mathf.Sin(funcOffset) * (amplitude + waveStrength);
 
                 // Modify the character's vertex positions based on the sine wave
                 Vector3[] vertexPositions = text.textInfo.meshInfo[materialIndex].vertices;
@@ -36,7 +37,7 @@ namespace BP.TextMotion
                 vertexPositions[vertexIndex + 3] += new Vector3(0f, waveOffset, 0f);
 
                 // Mark the mesh as needing an update
-                MotionRenderFlags.Add(TMP_VertexDataUpdateFlags.All);
+                MotionRenderFlags.Add(TMP_VertexDataUpdateFlags.Vertices);
             }
         }
     }
