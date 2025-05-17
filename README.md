@@ -1,5 +1,6 @@
 # TextMotion Pro
 [![Unity](https://img.shields.io/badge/unity-6%2B-green.svg?style=flat-square)](https://unity.com/)
+![GitHub License](https://img.shields.io/github/license/bluepixeldev/textmotion-pro?style=flat-square)
 [![Last Commit](https://img.shields.io/github/last-commit/bluepixeldev/textmotion-pro?style=flat-square)](https://github.com/bluepixeldev/textmotion-pro/commits/main)
 [![Stars](https://img.shields.io/github/stars/bluepixeldev/textmotion-pro?style=flat-square)](https://github.com/bluepixeldev/textmotion-pro/stargazers)
 [![Issues](https://img.shields.io/github/issues/bluepixeldev/textmotion-pro?style=flat-square)](https://github.com/bluepixeldev/textmotion-pro/issues)
