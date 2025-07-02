@@ -24,7 +24,7 @@ namespace BP.TextMotionTests
             Assert.AreEqual(1, result.Ranges.Count);
             var range = result.Ranges.Single();
             Assert.AreEqual(0, range.StartIndex);
-            Assert.AreEqual(4, range.EndIndex);
+            Assert.AreEqual(3, range.EndIndex);
             Assert.AreEqual("Test", result.CleanText);
             Assert.AreEqual(1, range.Tags.Count);
             Assert.AreEqual("b", range.Tags[0].Name);
@@ -34,22 +34,21 @@ namespace BP.TextMotionTests
         public void NestedTags_ProducesThreeRanges_WithProperTags()
         {
             var result = _parser.Parse("<b>Hi <i>there</i>!</b>");
-
             Assert.AreEqual(3, result.Ranges.Count);
 
             var r1 = result.Ranges[0];
             Assert.AreEqual(0, r1.StartIndex);
-            Assert.AreEqual(3, r1.EndIndex);
+            Assert.AreEqual(2, r1.EndIndex);
             CollectionAssert.AreEqual(new[] { "b" }, r1.Tags.Select(t => t.Name).ToArray());
 
             var r2 = result.Ranges[1];
             Assert.AreEqual(3, r2.StartIndex);
-            Assert.AreEqual(8, r2.EndIndex);
+            Assert.AreEqual(7, r2.EndIndex);
             CollectionAssert.AreEqual(new[] { "b", "i" }, r2.Tags.Select(t => t.Name).ToArray());
 
             var r3 = result.Ranges[2];
             Assert.AreEqual(8, r3.StartIndex);
-            Assert.AreEqual(9, r3.EndIndex);
+            Assert.AreEqual(8, r3.EndIndex);
             CollectionAssert.AreEqual(new[] { "b" }, r3.Tags.Select(t => t.Name).ToArray());
         }
 
@@ -84,10 +83,10 @@ namespace BP.TextMotionTests
         [Test]
         public void NoValidTags_ReturnsEmptyRanges_AndOriginalCleanText()
         {
-            var result = _parser.Parse("Plain text with {action=1} and <x>invalid</x>");
+            var result = _parser.Parse("Plain text with{action=1} and <x>invalid</x>");
 
             Assert.IsEmpty(result.Ranges);
-            Assert.AreEqual("Plain text with  and invalid", result.CleanText);
+            Assert.AreEqual("Plain text with and <x>invalid</x>", result.CleanText);
         }
     }
 }

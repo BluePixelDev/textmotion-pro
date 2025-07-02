@@ -64,8 +64,9 @@ namespace BP.TextMotion
 
             void EmitRange(int end)
             {
-                if (stacks.Count == 0)
+                if (stacks.Count == 0 || end <= rangeStart)
                     return;
+
                 var currentTags = stacks.Values.Select(s => s.Peek()).ToList();
                 ranges.Add(new TagRange(rangeStart, end - 1, currentTags));
             }

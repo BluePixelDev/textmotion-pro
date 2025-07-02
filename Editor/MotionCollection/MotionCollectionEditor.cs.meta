@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: fefb67485ac270b47a940a90a49b6e16
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - listContainerAsset: {fileID: 9197481963319205126, guid: 15acea1296425e549a7245ac84bd7161, type: 3}
+  - elementContainerAsset: {fileID: 9197481963319205126, guid: 93f36a28fa20e7c47b7fddaffe2c77bc, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

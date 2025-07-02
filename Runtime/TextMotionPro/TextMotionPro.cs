@@ -15,7 +15,8 @@ namespace BP.TextMotion
     {
         [SerializeField] private MotionProfile profile;
         [SerializeField] private MotionUpdateMode updateMode;
-        [SerializeField, Range(4, 120)] private float frameRate = 24f;
+        [SerializeField, Range(0, 100)] private float timeScale = 1f;
+        [SerializeField] private float frameRate = 24f;
         [SerializeField] private Vector2Int visibilityRange;
 
         private TMP_Text textComponent;
@@ -27,7 +28,7 @@ namespace BP.TextMotion
         private float elapsedTime = 0;
         private float lastUpdateTime = 0f;
 
-        private readonly MotionRenderContext renderContext = new();
+        private readonly TagEffectContext renderContext = new();
         private readonly Dictionary<int, CharacterData> characterData = new();
 
         /// <summary>
@@ -56,6 +57,12 @@ namespace BP.TextMotion
         /// </summary>
         public MotionProfile Profile => profile;
 
+        public float TimeScale
+        {
+            get => timeScale;
+            set => timeScale = Mathf.Clamp(value, 0f, 100f);
+        }
+
         /// <summary>
         /// Gets the motion preprocessor instance, used to clean and parse input text before applying motion effects.
         /// Initializes it lazily if not already created.
@@ -70,7 +77,10 @@ namespace BP.TextMotion
 
         private void OnEnable()
         {
-            animationTime = 0;
+            animationTime = 0f;
+            elapsedTime = 0f;
+            lastUpdateTime = 0f;
+
             PreProcessor.ClearCache();
             TextComponent.textPreprocessor = PreProcessor;
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(OnTextChange);
@@ -87,7 +97,7 @@ namespace BP.TextMotion
         private void OnDisable()
         {
             if (profile)
-                profile.TextEffectsChanged -= TextEffectsChanged;
+                profile.Changed -= TextEffectsChanged;
 
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(OnTextChange);
             TextComponent.textPreprocessor = null;
@@ -101,8 +111,8 @@ namespace BP.TextMotion
         {
             if (profile)
             {
-                profile.TextEffectsChanged -= TextEffectsChanged;
-                profile.TextEffectsChanged += TextEffectsChanged;
+                profile.Changed -= TextEffectsChanged;
+                profile.Changed += TextEffectsChanged;
             }
 
             if (prevProfile != profile)
@@ -110,6 +120,8 @@ namespace BP.TextMotion
                 prevProfile = profile;
                 TextComponent.ForceMeshUpdate(true, true);
             }
+
+            TimeScale = timeScale;
         }
         private void Update()
         {
@@ -126,6 +138,7 @@ namespace BP.TextMotion
             RenderTextEffects();
         }
 
+        // ==== INTERNAL LOOP ====
         private void EditorUpdate()
         {
             if (updateMode == MotionUpdateMode.Runtime) return;
@@ -151,44 +164,10 @@ namespace BP.TextMotion
             if (timeSinceLastUpdate >= targetUpdateInterval)
             {
                 int updateCount = Mathf.FloorToInt(timeSinceLastUpdate / targetUpdateInterval);
-                animationTime += updateCount * targetUpdateInterval;
+                animationTime += updateCount * targetUpdateInterval * timeScale;
                 RenderTextEffects();
                 lastUpdateTime = elapsedTime;
             }
-        }
-        private void CacheMeshInfo() => cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
-
-        private CharacterData GetCharacterDataOrAdd(int index)
-        {
-            if (!characterData.TryGetValue(index, out var data))
-            {
-                data = new CharacterData(index);
-                characterData[index] = data;
-            }
-
-            return data;
-        }
-        private void UpdateCharacterVisibility(int index)
-        {
-            bool isInRange = index >= visibilityRange.x && index <= visibilityRange.y;
-            var charData = GetCharacterDataOrAdd(index);
-            if (!isInRange)
-            {
-                if (charData.isVisible)
-                {
-                    charData.isVisible = false;
-                    charData.hiddenStartTime = animationTime;
-                }
-            }
-            else
-            {
-                if (!charData.isVisible)
-                {
-                    charData.isVisible = true;
-                    charData.visibleStartTime = animationTime;
-                }
-            }
-
         }
         private void RenderTextEffects()
         {
@@ -228,7 +207,7 @@ namespace BP.TextMotion
                 // Applies each tag in the current range
                 foreach (var tag in tags)
                 {
-                    if (!profile.TryGetTextEffectWithTag(tag.Name, out var textEffect))
+                    if (!profile.TagComponents.TryGetByKey(tag.Name, out var textEffect))
                         continue;
 
                     renderContext.Reset(
@@ -238,12 +217,46 @@ namespace BP.TextMotion
                         i,
                         animationTime
                     );
-                    textEffect.ApplyEffect(renderContext);
+                    textEffect.Apply(renderContext);
                 }
             }
 
             TextComponent.UpdateVertexData(MotionRenderFlags.Pop());
             MotionUtility.UpdateMeshInfo(TextComponent, ref cachedMeshInfo);
+        }
+
+        private CharacterData GetCharacterDataOrAdd(int index)
+        {
+            if (!characterData.TryGetValue(index, out var data))
+            {
+                data = new CharacterData(index);
+                characterData[index] = data;
+            }
+
+            return data;
+        }
+        private void CacheMeshInfo() => cachedMeshInfo = TextComponent.textInfo.CopyMeshInfoVertexData();
+        private void UpdateCharacterVisibility(int index)
+        {
+            bool isInRange = index >= visibilityRange.x && index <= visibilityRange.y;
+            var charData = GetCharacterDataOrAdd(index);
+            if (!isInRange)
+            {
+                if (charData.isVisible)
+                {
+                    charData.isVisible = false;
+                    charData.hiddenStartTime = animationTime;
+                }
+            }
+            else
+            {
+                if (!charData.isVisible)
+                {
+                    charData.isVisible = true;
+                    charData.visibleStartTime = animationTime;
+                }
+            }
+
         }
     }
 }

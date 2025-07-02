@@ -163,6 +163,113 @@ MonoBehaviour:
   isFolded: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
+--- !u!114 &-5877055930998343404
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: ShakeTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
+--- !u!114 &-4008703738479005948
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8781d55da3b514ca32af71101c62e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  popInDuration: 0.5
+--- !u!114 &-2203157015255800570
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
+--- !u!114 &-2200244157406425344
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb49ee3051cea6468af606a34a3264e, type: 3}
+  m_Name: AnimatorTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  tag: 
+  duration: 0
+  xPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  position: {x: 0, y: 0}
+  xScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scale: {x: 0, y: 0}
+  rotation:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  angle: 0
+  animatorFlow: 0
+--- !u!114 &-2138630962136838976
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1160c94e0a28c84994379df8f017eaa, type: 3}
+  m_Name: RainbowTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  test: 1
 --- !u!114 &-767559779766164984
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -190,8 +297,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee29ecc53264afc40b16bac81543731e, type: 3}
   m_Name: WaveExample
   m_EditorClassIdentifier: 
-  textEffects:
-  - {fileID: 9085725105304512012}
+  tagComponents:
+    components:
+    - {fileID: 3739089941080158398}
+    - {fileID: 4026341992023590182}
+    - {fileID: -2203157015255800570}
+    - {fileID: 1129223934588219590}
+--- !u!114 &1129223934588219590
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f9e90e663d5ba4d836b916ca82d160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  frequency: 6
+  amplitude: 3
+  offset: 20
 --- !u!114 &1354213985244841776
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -221,6 +348,98 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFolded: 0
   popInDuration: 0.5
+--- !u!114 &2385683223456071691
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb49ee3051cea6468af606a34a3264e, type: 3}
+  m_Name: AnimatorTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  tag: joe
+  duration: 0
+  xPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  position: {x: 0, y: 0}
+  xScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scale: {x: 0, y: 0}
+  rotation:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  angle: 0
+  animatorFlow: 0
+--- !u!114 &2535368755651654442
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
+--- !u!114 &2560725574158206358
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8781d55da3b514ca32af71101c62e3, type: 3}
+  m_Name: PopInTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  popInDuration: 0.5
+--- !u!114 &3739089941080158398
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8781d55da3b514ca32af71101c62e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  popInDuration: 0.5
 --- !u!114 &3846580081282660097
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -237,6 +456,162 @@ MonoBehaviour:
   frequency: 6
   amplitude: 3
   offset: 20
+--- !u!114 &4026341992023590182
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1160c94e0a28c84994379df8f017eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  test: 1
+--- !u!114 &4351287649602906040
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb49ee3051cea6468af606a34a3264e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  tag: 
+  duration: 0
+  xPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  position: {x: 0, y: 0}
+  xScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scale: {x: 0, y: 0}
+  rotation:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  angle: 0
+  animatorFlow: 0
+--- !u!114 &4800622866933438973
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f9e90e663d5ba4d836b916ca82d160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  frequency: 6
+  amplitude: 3
+  offset: 20
+--- !u!114 &4998898500549404177
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8781d55da3b514ca32af71101c62e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  popInDuration: 0.5
+--- !u!114 &6234438731281222486
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1160c94e0a28c84994379df8f017eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  test: 1
+--- !u!114 &6438672295982805804
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb49ee3051cea6468af606a34a3264e, type: 3}
+  m_Name: AnimatorTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  tag: 
+  duration: 0
+  xPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yPos:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  position: {x: 0, y: 0}
+  xScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yScale:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scale: {x: 0, y: 0}
+  rotation:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  angle: 0
+  animatorFlow: 0
 --- !u!114 &6829343294033526472
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -265,6 +640,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFolded: 0
   test: 1
+--- !u!114 &8630290376164800802
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e513956c85224e8e82439b8b755ee, type: 3}
+  m_Name: ShakeTextEffect
+  m_EditorClassIdentifier: 
+  isFolded: 0
+  shakeAmount: 2
+  randomShakeInterval: 0.1
 --- !u!114 &9085725105304512012
 MonoBehaviour:
   m_ObjectHideFlags: 3

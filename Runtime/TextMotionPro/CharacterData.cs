@@ -20,8 +20,8 @@ namespace BP.TextMotion
         {
             this.index = index;
             isVisible = false;
-            visibleStartTime = 0f;
-            hiddenStartTime = 0f;
+            visibleStartTime = 0;
+            hiddenStartTime = 0;
         }
     }
 }

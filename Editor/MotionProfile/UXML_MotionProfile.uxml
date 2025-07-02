@@ -1,0 +1,16 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/TextMotion%20Pro/Editor/MotionProfile/USS_MotionProfile.uss?fileID=7433441132597879392&amp;guid=78f264ab9f905c54baea00c777d4582a&amp;type=3#USS_MotionProfile" />
+    <engine:TabView class="mp-tab-view" style="margin-left: -15px; margin-right: -6px; margin-top: -3px;">
+        <engine:Tab label="Settings" name="settings" class="tab-space">
+            <engine:GroupBox>
+                <engine:Label text="Transition Fallback" style="-unity-font-style: bold;" />
+                <engine:DropdownField label="In" />
+                <engine:DropdownField label="Out" />
+            </engine:GroupBox>
+        </engine:Tab>
+        <engine:Tab label="Tags" name="tags" class="tab-space">
+            <editor:PropertyField binding-path="tagComponents" />
+        </engine:Tab>
+        <engine:Tab label="Transitions" name="transitions" class="tab-space" />
+    </engine:TabView>
+</engine:UXML>
