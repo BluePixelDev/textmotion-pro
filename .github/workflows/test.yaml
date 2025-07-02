@@ -22,6 +22,14 @@ jobs:
           restore-keys: |
             Library-
     
+    # Move the package to a subdirectory
+    - name: Move package to subdirectory
+      run: |
+        mkdir -p unity-package
+        shopt -s extglob
+        mv !(unity-package) unity-package/
+        shopt -u extglob
+    
     # Test
     - name: Run tests
       uses: game-ci/unity-test-runner@v4
@@ -31,5 +39,6 @@ jobs:
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
         packageMode: true
+        projectPath:  unity-package
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         unityVersion: ${{ vars.UNITY_VERSION }}
