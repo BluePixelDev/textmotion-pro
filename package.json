@@ -4,6 +4,9 @@
   "displayName": "TextMotionPro",
   "description": "TextMotionPro is an animated text solution for Unity's TextMeshPro. Animate your text easily with customizable effects and smooth integration.",
   "unity": "6000.0",
+  "dependencies": {
+    "com.unity.ugui": "2.0.0"
+  },
   "author": {
     "name": "Bluepixel",
     "url": "https://github.com/Bluepixeldev"
@@ -22,12 +25,12 @@
   },
   "samples": [
     {
-      "displayName": "Wave", 
+      "displayName": "Wave",
       "descriptions": "Showcase of the built-in wave effect",
       "path": "Samples~/Wave"
     },
-      {
-      "displayName": "Shake", 
+    {
+      "displayName": "Shake",
       "descriptions": "Showcase of the built-in Shake effect",
       "path": "Samples~/Shake"
     }
