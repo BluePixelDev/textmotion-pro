@@ -400,7 +400,7 @@ MonoBehaviour:
   profile: {fileID: 11400000, guid: 2773795a3a4cce245a858456dcc49489, type: 2}
   updateMode: 1
   timeScale: 1
-  frameRate: 24
+  frameRate: 32
   visibilityRange: {x: 0, y: 500}
 --- !u!114 &618984857
 MonoBehaviour:

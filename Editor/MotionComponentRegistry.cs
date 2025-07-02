@@ -26,10 +26,10 @@ namespace BP.TextMotionEditor
     }
 
     [InitializeOnLoad]
-    internal static class MotionEffectRegistry
+    internal static class MotionComponentRegistry
     {
         public static readonly List<MotionComponentDescriptor> Components = new();
-        static MotionEffectRegistry() => Init();
+        static MotionComponentRegistry() => Init();
 
         public static void Init()
         {

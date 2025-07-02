@@ -1,5 +1,4 @@
 ﻿using BP.TextMotion;
-using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -76,42 +75,6 @@ namespace BP.TextMotionEditor
                     listRoot.Add(elemContainer);
                 }
             }
-
-            addButton.clicked += () =>
-            {
-                var menu = new GenericMenu();
-                var registry = MotionEffectRegistry.Components;
-                foreach (var entry in registry)
-                {
-                    if (Enumerable
-                    .Range(0, listProp.arraySize)
-                    .Select(i => listProp.GetArrayElementAtIndex(i).objectReferenceValue)
-                    .Any(obj => obj != null && obj.GetType() == entry.Type))
-                    {
-                        continue;
-                    }
-
-                    menu.AddItem(new GUIContent(entry.DisplayName), false, () =>
-                    {
-                        var listTarget = property.serializedObject.targetObject as ScriptableObject;
-                        Undo.RecordObject(listTarget, "Add Component");
-
-                        var inst = ScriptableObject.CreateInstance(entry.Type);
-                        inst.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
-
-                        AssetDatabase.AddObjectToAsset(inst,
-                            AssetDatabase.GetAssetPath(listTarget));
-
-                        listProp.arraySize++;
-                        var newElem = listProp.GetArrayElementAtIndex(listProp.arraySize - 1);
-                        newElem.objectReferenceValue = inst;
-                        property.serializedObject.ApplyModifiedProperties();
-
-                        RefreshList();
-                    });
-                }
-                menu.ShowAsContext();
-            };
 
             RefreshList();
             return root;

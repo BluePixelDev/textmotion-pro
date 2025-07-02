@@ -67,8 +67,8 @@ namespace BP.TextMotion
         /// Gets the motion preprocessor instance, used to clean and parse input text before applying motion effects.
         /// Initializes it lazily if not already created.
         /// </summary>
-        public MotionPreprocessor PreProcessor => preprocessor ??= CreatePreProcessor();
-        private MotionPreprocessor CreatePreProcessor()
+        public MotionPreprocessor Preprocessor => preprocessor ??= CreatePreprocessor();
+        private MotionPreprocessor CreatePreprocessor()
         {
             var validator = new MotionValidator(this);
             var parser = new MotionParser(validator);
@@ -81,8 +81,8 @@ namespace BP.TextMotion
             elapsedTime = 0f;
             lastUpdateTime = 0f;
 
-            PreProcessor.ClearCache();
-            TextComponent.textPreprocessor = PreProcessor;
+            Preprocessor.ClearCache();
+            TextComponent.textPreprocessor = Preprocessor;
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(OnTextChange);
 
             TextComponent.ForceMeshUpdate(true);
@@ -97,7 +97,7 @@ namespace BP.TextMotion
         private void OnDisable()
         {
             if (profile)
-                profile.Changed -= TextEffectsChanged;
+                profile.ComponentsChanged -= TextEffectsChanged;
 
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(OnTextChange);
             TextComponent.textPreprocessor = null;
@@ -111,8 +111,8 @@ namespace BP.TextMotion
         {
             if (profile)
             {
-                profile.Changed -= TextEffectsChanged;
-                profile.Changed += TextEffectsChanged;
+                profile.ComponentsChanged -= TextEffectsChanged;
+                profile.ComponentsChanged += TextEffectsChanged;
             }
 
             if (prevProfile != profile)
@@ -200,14 +200,14 @@ namespace BP.TextMotion
                     }
                 }
 
-                var tags = PreProcessor.GetTagsAt(character.index);
+                var tags = Preprocessor.GetTagsAt(character.index);
                 if (tags == null)
                     continue;
 
                 // Applies each tag in the current range
                 foreach (var tag in tags)
                 {
-                    if (!profile.TagComponents.TryGetByKey(tag.Name, out var textEffect))
+                    if (!profile.TryGetTagEffect(tag.Name, out var textEffect))
                         continue;
 
                     renderContext.Reset(

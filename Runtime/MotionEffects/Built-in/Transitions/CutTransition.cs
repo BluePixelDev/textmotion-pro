@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BP.TextMotion
 {
     [TextMotion("Cut", TextMotionRole.Transition)]
-    public class CutTransition : TextTransition
+    public class CutTransition : TransitionEffect
     {
         public override string Key => "cut";
         public override void Apply(TransitionContext context)

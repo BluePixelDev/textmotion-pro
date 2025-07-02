@@ -303,6 +303,8 @@ MonoBehaviour:
     - {fileID: 4026341992023590182}
     - {fileID: -2203157015255800570}
     - {fileID: 1129223934588219590}
+  transitionComponents:
+    components: []
 --- !u!114 &1129223934588219590
 MonoBehaviour:
   m_ObjectHideFlags: 3

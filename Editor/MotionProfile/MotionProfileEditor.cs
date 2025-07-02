@@ -30,7 +30,7 @@ namespace BP.TextMotionProEditor
             string path = AssetDatabase.GetAssetPath(profile);
 
             // Gets all components.
-            var components = profile.GetAllMotionComponents();
+            var components = profile.GetAllComponents();
             var currentSubAssets = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
             var componentsToRemove = new List<UnityEngine.Object>(currentSubAssets);
 

@@ -6,7 +6,7 @@ namespace BP.TextMotion
     /// A text transition describes how characters animate into or out of view,
     /// and can be identified by a unique name (e.g., "pop", "cut", "fade").
     /// </summary>
-    public abstract class TextTransition : MotionComponent
+    public abstract class TransitionEffect : MotionComponent
     {
         public abstract void Apply(TransitionContext context);
     }
