@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test-package:
-    name: build the project
+    name: Test the package
     runs-on: ubuntu-latest
     steps:
     
@@ -31,3 +31,4 @@ jobs:
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
         githubToken: ${{ secrets.GITHUB_TOKEN }}
+        unityVersion: 6000
