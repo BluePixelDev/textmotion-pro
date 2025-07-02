@@ -30,5 +30,6 @@ jobs:
         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
+        packageMode: true
         githubToken: ${{ secrets.GITHUB_TOKEN }}
         unityVersion: ${{ vars.UNITY_VERSION }}
