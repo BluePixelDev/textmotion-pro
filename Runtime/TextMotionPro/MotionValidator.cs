@@ -21,7 +21,7 @@ namespace BP.TextMotion
 
             var profile = textMotion.Profile;
             return profile != null &&
-                  profile.TryGetTagEffect(key, out var effect) &&
+                  profile.TagComponents.TryGetByKey(key, out var effect) &&
                   effect.ValidateTag(key, attributes);
         }
     }

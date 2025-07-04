@@ -1,8 +1,11 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <engine:VisualElement name="element" style="margin-bottom: 0;">
-        <editor:Toolbar name="header" style="border-top-width: 1px; border-bottom-width: 0; background-color: rgba(255, 255, 255, 0.05); align-items: center; justify-content: space-between; margin-top: 0; -unity-font-style: bold;">
-            <engine:Label text="Wave Effect" name="label" style="justify-content: flex-start; align-self: auto; -unity-text-align: middle-left;" />
-            <editor:ToolbarButton text="⋮" name="options-button" style="font-size: 23px; border-right-width: 0; border-left-width: 0; background-color: rgba(60, 60, 60, 0);" />
+        <editor:Toolbar name="header" style="border-top-width: 1px; border-bottom-width: 0; background-color: rgba(255, 255, 255, 0.05); align-items: center; justify-content: flex-start; margin-top: 0; -unity-font-style: bold;">
+            <engine:Toggle name="active-toggle" binding-path="isActive" value="false" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 4px; padding-left: 4px;" />
+            <engine:VisualElement name="foldout-box" style="flex-grow: 1; flex-direction: row;">
+                <engine:Label text="Wave Effect" name="label" style="justify-content: flex-start; align-self: auto; -unity-text-align: middle-left;" />
+                <editor:ToolbarButton text="⋮" name="options-button" style="font-size: 23px; border-right-width: 0; border-left-width: 0; background-color: rgba(60, 60, 60, 0); margin-left: auto;" />
+            </engine:VisualElement>
         </editor:Toolbar>
         <engine:GroupBox name="body" style="margin-top: 0; display: none;" />
     </engine:VisualElement>

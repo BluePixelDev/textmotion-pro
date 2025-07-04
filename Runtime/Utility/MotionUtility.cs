@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UnityEngine;
 
 namespace BP.TextMotion
 {
@@ -45,6 +46,18 @@ namespace BP.TextMotion
                 Array.Resize(ref dst, src.Length);
 
             Array.Copy(src, dst, src.Length);
+        }
+
+        public static T CreateComponent<T>() where T : MotionComponent => (T)CreateComponent(typeof(T));
+        public static MotionComponent CreateComponent(Type type)
+        {
+            if (!type.IsSubclassOf(typeof(MotionComponent)))
+                throw new InvalidOperationException($"Invalid component type: {type}.");
+
+            var instance = ScriptableObject.CreateInstance(type);
+            instance.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+            instance.name = type.Name;
+            return instance as MotionComponent;
         }
     }
 }

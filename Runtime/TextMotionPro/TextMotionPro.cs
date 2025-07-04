@@ -28,7 +28,7 @@ namespace BP.TextMotion
         private float elapsedTime = 0;
         private float lastUpdateTime = 0f;
 
-        private readonly TagEffectContext renderContext = new();
+        private readonly MotionContext renderContext = new();
         private readonly Dictionary<int, CharacterData> characterData = new();
 
         /// <summary>
@@ -207,10 +207,10 @@ namespace BP.TextMotion
                 // Applies each tag in the current range
                 foreach (var tag in tags)
                 {
-                    if (!profile.TryGetTagEffect(tag.Name, out var textEffect))
+                    if (!profile.TagComponents.TryGetByKey(tag.Name, out var textEffect))
                         continue;
 
-                    renderContext.Reset(
+                    renderContext.ResetForTag(
                         this,
                         tag,
                         characterData[character.index],

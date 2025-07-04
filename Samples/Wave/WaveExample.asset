@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AnimatorTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: tagy
   duration: 2
   xPos:
@@ -62,6 +63,7 @@ MonoBehaviour:
   m_Name: PopInTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &-6589767920774529191
 MonoBehaviour:
@@ -76,6 +78,7 @@ MonoBehaviour:
   m_Name: AnimatorTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: test
   duration: 1
   xPos:
@@ -161,6 +164,7 @@ MonoBehaviour:
   m_Name: ShakeTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &-5877055930998343404
@@ -176,6 +180,7 @@ MonoBehaviour:
   m_Name: ShakeTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &-4008703738479005948
@@ -191,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &-2203157015255800570
 MonoBehaviour:
@@ -205,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &-2200244157406425344
@@ -220,6 +227,7 @@ MonoBehaviour:
   m_Name: AnimatorTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: 
   duration: 0
   xPos:
@@ -269,6 +277,7 @@ MonoBehaviour:
   m_Name: RainbowTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   test: 1
 --- !u!114 &-767559779766164984
 MonoBehaviour:
@@ -283,6 +292,7 @@ MonoBehaviour:
   m_Name: ShakeTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &11400000
@@ -297,11 +307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee29ecc53264afc40b16bac81543731e, type: 3}
   m_Name: WaveExample
   m_EditorClassIdentifier: 
+  fallbackInTransition: {fileID: 0}
+  fallbackOutTransition: {fileID: 0}
   tagComponents:
     components:
-    - {fileID: 3739089941080158398}
-    - {fileID: 4026341992023590182}
-    - {fileID: -2203157015255800570}
     - {fileID: 1129223934588219590}
   transitionComponents:
     components: []
@@ -318,6 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 1
   frequency: 6
   amplitude: 3
   offset: 20
@@ -334,6 +344,7 @@ MonoBehaviour:
   m_Name: ShakeTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &2143633582836559780
@@ -349,6 +360,7 @@ MonoBehaviour:
   m_Name: PopInTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &2385683223456071691
 MonoBehaviour:
@@ -363,6 +375,7 @@ MonoBehaviour:
   m_Name: AnimatorTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: joe
   duration: 0
   xPos:
@@ -412,6 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &2560725574158206358
@@ -427,6 +441,7 @@ MonoBehaviour:
   m_Name: PopInTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &3739089941080158398
 MonoBehaviour:
@@ -440,7 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8781d55da3b514ca32af71101c62e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFolded: 0
+  isFolded: 1
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &3846580081282660097
 MonoBehaviour:
@@ -455,6 +471,7 @@ MonoBehaviour:
   m_Name: WaveTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   frequency: 6
   amplitude: 3
   offset: 20
@@ -471,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   test: 1
 --- !u!114 &4351287649602906040
 MonoBehaviour:
@@ -485,6 +503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: 
   duration: 0
   xPos:
@@ -534,6 +553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   frequency: 6
   amplitude: 3
   offset: 20
@@ -550,6 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &6234438731281222486
 MonoBehaviour:
@@ -564,6 +585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   test: 1
 --- !u!114 &6438672295982805804
 MonoBehaviour:
@@ -578,6 +600,7 @@ MonoBehaviour:
   m_Name: AnimatorTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   tag: 
   duration: 0
   xPos:
@@ -627,6 +650,7 @@ MonoBehaviour:
   m_Name: PopInTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   popInDuration: 0.5
 --- !u!114 &7321883392344451743
 MonoBehaviour:
@@ -641,6 +665,7 @@ MonoBehaviour:
   m_Name: RainbowTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   test: 1
 --- !u!114 &8630290376164800802
 MonoBehaviour:
@@ -655,6 +680,7 @@ MonoBehaviour:
   m_Name: ShakeTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   shakeAmount: 2
   randomShakeInterval: 0.1
 --- !u!114 &9085725105304512012
@@ -670,6 +696,7 @@ MonoBehaviour:
   m_Name: WaveTextEffect
   m_EditorClassIdentifier: 
   isFolded: 0
+  isActive: 0
   frequency: 2
   amplitude: 3
   offset: 20

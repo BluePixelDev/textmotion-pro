@@ -14,6 +14,7 @@ namespace BP.TextMotion
         private readonly IParser parser;
         private ParseResult result;
         private TagRange cachedRange;
+        private TokenData cachedAction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MotionPreprocessor"/> class.
@@ -35,12 +36,13 @@ namespace BP.TextMotion
             if (string.IsNullOrEmpty(inputText))
             {
                 cachedRange = null;
+                cachedAction = null;
                 result = null;
                 return string.Empty;
             }
 
             // Reprocess only if the input has changed or cache is empty.
-            if (inputText != lastInput || result == null || cachedRange == null)
+            if (inputText != lastInput || result == null)
             {
                 result = parser.Parse(inputText);
                 lastInput = inputText;
@@ -49,6 +51,7 @@ namespace BP.TextMotion
             return result.CleanText;
         }
 
+        //==== TAGS ====//
         /// <summary>
         /// Retrieves the tags affecting the specified index in the processed text.
         /// </summary>
@@ -59,13 +62,13 @@ namespace BP.TextMotion
         /// </returns>
         public IReadOnlyList<TokenData> GetTagsAt(int index)
         {
-            UpdateCacheIfNeeded(index);
+            UpdateCachedRangeIfNeeded(index);
             if (cachedRange == null)
                 return null;
 
             return cachedRange.Tags;
         }
-        private void UpdateCacheIfNeeded(int index)
+        private void UpdateCachedRangeIfNeeded(int index)
         {
             if (result.Ranges == null)
                 return;
@@ -78,22 +81,24 @@ namespace BP.TextMotion
             cachedRange = result.Ranges.FirstOrDefault(range => range.StartIndex <= index && index <= range.EndIndex);
         }
 
+        //==== ACTIONS ====//
         public TokenData GetActionAt(int index)
         {
-            foreach (var tokenData in result.Actions)
-            {
-                if (tokenData.Position == index)
-                {
-                    return tokenData;
-                }
-            }
+            UpdateActionCacheIfNeeded(index);
+            return cachedAction;
+        }
+        private void UpdateActionCacheIfNeeded(int index)
+        {
+            if (cachedAction != null && cachedAction.Position == index)
+                return;
 
-            return null;
+            cachedAction = result.Actions?.FirstOrDefault(action => action.Position == index);
         }
 
         public void ClearCache()
         {
             cachedRange = null;
+            cachedAction = null;
             result = null;
             lastInput = null;
         }
