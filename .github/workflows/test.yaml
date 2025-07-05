@@ -1,7 +1,13 @@
 name: "Run Tests"
 
-on: [push, pull_request]
-
+on: 
+  push: 
+    paths-ignore:
+    - "README.md"
+    - "CHANGELOG.md"
+    - ".github/**"
+    - "Samples/**"
+    
 jobs:
   test-package:
     name: Test the package
