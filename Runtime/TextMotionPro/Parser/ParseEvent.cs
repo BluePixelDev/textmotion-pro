@@ -1,4 +1,4 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Represents a single parsing event: either a tag open/close or an action marker.

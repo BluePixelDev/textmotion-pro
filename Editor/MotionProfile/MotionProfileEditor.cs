@@ -1,13 +1,12 @@
-using BP.TextMotion;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BP.TextMotionProEditor
+namespace BP.TextMotionPro.Editor
 {
     [CustomEditor(typeof(MotionProfile))]
-    public class MotionProfileEditor : Editor
+    public class MotionProfileEditor : UnityEditor.Editor
     {
         [SerializeField] private VisualTreeAsset mainTreeAsset;
         private MotionProfile profile;

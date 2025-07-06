@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public sealed class TagRange
     {

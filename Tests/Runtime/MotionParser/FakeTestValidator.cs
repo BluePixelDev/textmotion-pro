@@ -1,6 +1,6 @@
-using BP.TextMotion;
+using BP.TextMotionPro;
 
-namespace BP.TextMotionTests
+namespace BP.TextMotionPro.Tests
 {
     public class FakeTestValidator : ITagValidator
     {

@@ -1,10 +1,11 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public enum CharacterTransition
     {
         Appear,
         Disappear,
     }
+
     /// <summary>
     /// Data container for character data.
     /// </summary>
@@ -22,6 +23,16 @@ namespace BP.TextMotion
             isVisible = false;
             visibleStartTime = 0;
             hiddenStartTime = 0;
+        }
+
+        public override string ToString()
+        {
+            return
+                $"Index {index}" +
+                $"IsVisible {isVisible}" +
+                $"VisibleStartTime {visibleStartTime}" +
+                $"HiddenStartTime {hiddenStartTime}" +
+                $"CharacterTransition {characterTransition}";
         }
     }
 }

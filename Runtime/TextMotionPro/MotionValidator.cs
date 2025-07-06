@@ -1,11 +1,11 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public class MotionValidator : ITagValidator
     {
-        private readonly TextMotionPro textMotion;
-        public MotionValidator(TextMotionPro textMotion)
+        private readonly TextMotionPro TextMotionPro;
+        public MotionValidator(TextMotionPro TextMotionPro)
         {
-            this.textMotion = textMotion;
+            this.TextMotionPro = TextMotionPro;
         }
 
         public bool Validate(string key, string attributes)
@@ -19,7 +19,7 @@ namespace BP.TextMotion
             if (TagFilter.IsReserved(key))
                 return false;
 
-            var profile = textMotion.Profile;
+            var profile = TextMotionPro.Profile;
             return profile != null &&
                   profile.TagComponents.TryGetByKey(key, out var effect) &&
                   effect.ValidateTag(key, attributes);

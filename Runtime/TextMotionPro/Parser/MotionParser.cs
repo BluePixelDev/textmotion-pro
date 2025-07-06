@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Parses motion tags and actions from input text, emitting ranges and a clean output.

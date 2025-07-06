@@ -1,10 +1,9 @@
-using BP.TextMotion;
 using UnityEditor;
 
-namespace BP.TextMotionProEditor
+namespace BP.TextMotionPro.Editor
 {
     [CustomEditor(typeof(MotionComponent), editorForChildClasses: true, isFallback = true)]
-    internal class MotionComponentEditor : Editor
+    internal class MotionComponentEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

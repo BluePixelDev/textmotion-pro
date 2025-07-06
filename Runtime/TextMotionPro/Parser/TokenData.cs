@@ -1,4 +1,4 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Class for parsed tokens (tags and actions) in motion text.

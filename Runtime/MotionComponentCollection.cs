@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// A generic collection manager for MotionComponents (e.g., TagEffects, TextTransitions).
     /// Provides efficient lookup, caching, and lifecycle management.
     /// </summary>
     [Serializable]
-    public class MotionComponentRegistry<T> : IEnumerable<T> where T : MotionComponent
+    public class MotionComponentCollection<T> : IEnumerable<T> where T : MotionComponent
     {
         [SerializeField] private List<T> components = new();
         private readonly Dictionary<string, T> cacheByKey = new();

@@ -1,4 +1,4 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public interface IParser
     {

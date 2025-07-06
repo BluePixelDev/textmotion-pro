@@ -1,8 +1,8 @@
-using BP.TextMotion;
+using BP.TextMotionPro;
 using NUnit.Framework;
 using System;
 
-namespace BP.TextMotionTests
+namespace BP.TextMotionPro.Tests
 {
     public class WrongComponentType
     {

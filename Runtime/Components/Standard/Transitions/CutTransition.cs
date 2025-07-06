@@ -1,15 +1,15 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
-    [TextMotion("Cut", TextMotionRole.Transition)]
+    [ComponentDescriptor("Cut")]
     public class CutTransition : TransitionComponent
     {
         public override string Key => "cut";
         public override void Apply(MotionContext context)
         {
-            var text = context.TextMotion.TextComponent;
+            var text = context.TextMotionPro.TextComponent;
             var charInfo = text.textInfo.characterInfo[context.CharacterIndex];
 
             if (!charInfo.isVisible) return;

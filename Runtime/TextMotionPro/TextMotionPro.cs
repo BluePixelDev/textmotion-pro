@@ -4,7 +4,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// <see cref="TextMotionPro"/> manages animated text effects on a <see cref="TMP_Text"/> component.

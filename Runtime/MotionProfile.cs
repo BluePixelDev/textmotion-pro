@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Manages collections of tag effects and text transitions for TextMeshPro animations.
@@ -14,11 +14,11 @@ namespace BP.TextMotion
         [SerializeField] private TransitionComponent fallbackInTransition;
         [SerializeField] private TransitionComponent fallbackOutTransition;
 
-        [SerializeField] private MotionComponentRegistry<TagComponent> tagComponents = new();
-        [SerializeField] private MotionComponentRegistry<TransitionComponent> transitionComponents = new();
+        [SerializeField] private MotionComponentCollection<TagComponent> tagComponents = new();
+        [SerializeField] private MotionComponentCollection<TransitionComponent> transitionComponents = new();
 
-        public MotionComponentRegistry<TagComponent> TagComponents => tagComponents;
-        public MotionComponentRegistry<TransitionComponent> TransitionComponents => transitionComponents;
+        public MotionComponentCollection<TagComponent> TagComponents => tagComponents;
+        public MotionComponentCollection<TransitionComponent> TransitionComponents => transitionComponents;
 
         /// <summary> Default fallback transition effect for 'in' transitions. </summary>
         public TransitionComponent FallbackInTransition => fallbackInTransition;

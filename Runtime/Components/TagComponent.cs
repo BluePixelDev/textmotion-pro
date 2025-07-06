@@ -1,6 +1,6 @@
 using System;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Base class for creating custom text animation and rendering effects for TextMesh Pro.

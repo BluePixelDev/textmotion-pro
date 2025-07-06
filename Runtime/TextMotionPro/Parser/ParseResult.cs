@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
 
     /// <summary>

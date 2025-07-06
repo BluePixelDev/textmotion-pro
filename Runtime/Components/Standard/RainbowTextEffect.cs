@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
-    [TextMotion("Rainbow", TextMotionRole.Effect, "Makes the text rainbowy")]
+    [ComponentDescriptor("Rainbow", "Makes the text rainbowy")]
     public sealed class RainbowTextEffect : TagComponent
     {
         [SerializeField] private float test = 1;
@@ -13,7 +13,7 @@ namespace BP.TextMotion
         public sealed override bool ValidateTag(string tag, string attributes) => true;
         public sealed override void Apply(MotionContext context)
         {
-            var text = context.TextMotion.TextComponent;
+            var text = context.TextMotionPro.TextComponent;
             var textInfo = text.textInfo;
             var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];
 

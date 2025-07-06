@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     /// <summary>
     /// Preprocesses text for <see cref="MotionPreprocessor"/> by removing tags and parsing tag ranges.

@@ -1,13 +1,12 @@
-﻿using BP.TextMotion;
-using System.Reflection;
+﻿using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BP.TextMotionEditor
+namespace BP.TextMotionPro.Editor
 {
-    [CustomPropertyDrawer(typeof(MotionComponentRegistry<>), true)]
+    [CustomPropertyDrawer(typeof(MotionComponentCollection<>), true)]
     public class MotionComponentRegistryEditor : PropertyDrawer
     {
         [SerializeField] private VisualTreeAsset listContainerAsset;
@@ -55,7 +54,7 @@ namespace BP.TextMotionEditor
         private void SetupHeader(VisualElement header, MotionComponent component, VisualElement body)
         {
             var type = component.GetType();
-            var attr = type.GetCustomAttribute<TextMotionAttribute>();
+            var attr = type.GetCustomAttribute<ComponentDescriptorAttribute>();
             header.Q<Label>("label").text = attr?.DisplayName ?? type.Name;
 
             var foldoutClickable = header.Q("foldout-box");
@@ -116,7 +115,7 @@ namespace BP.TextMotionEditor
 
         private VisualElement CreateEditorElement(SerializedObject serializedObject)
         {
-            var editor = Editor.CreateEditor(serializedObject.targetObject);
+            var editor = UnityEditor.Editor.CreateEditor(serializedObject.targetObject);
             if (editor == null)
                 return new Label("No custom editor available");
 

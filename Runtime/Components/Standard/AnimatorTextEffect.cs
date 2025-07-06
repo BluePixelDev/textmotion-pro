@@ -1,11 +1,11 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
 
 
-    [TextMotion("LoopingAnimator", TextMotionRole.Effect, description: "Animates position, rotation, and scale in a loop using animation curves")]
+    [ComponentDescriptor("LoopingAnimator", description: "Animates position, rotation, and scale in a loop using animation curves")]
     public class AnimatorTextEffect : TagComponent
     {
         public enum AnimatorFlow
@@ -29,7 +29,7 @@ namespace BP.TextMotion
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void Apply(MotionContext context)
         {
-            var text = context.TextMotion.TextComponent;
+            var text = context.TextMotionPro.TextComponent;
             var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];
             int materialIndex = characterInfo.materialReferenceIndex;
             int vertexIndex = characterInfo.vertexIndex;

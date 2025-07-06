@@ -1,6 +1,6 @@
 {
-    "name": "BP.TextMotionEditor",
-    "rootNamespace": "BP.TextMotionEditor",
+    "name": "BP.TextMotionPro.Editor",
+    "rootNamespace": "BP.TextMotionPro.Editor",
     "references": [
         "GUID:a87b08c5284c4f8448de7afcf0272260"
     ],

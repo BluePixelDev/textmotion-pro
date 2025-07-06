@@ -1,11 +1,11 @@
-using BP.TextMotion;
+using BP.TextMotionPro;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace BP.TextMotionTests
+namespace BP.TextMotionPro.Tests
 {
     public class FakeMotionComponent : MotionComponent
     {
@@ -21,17 +21,17 @@ namespace BP.TextMotionTests
 
     public class MotionComponentRegistryTests
     {
-        private MotionComponentRegistry<MotionComponent> _collection;
+        private MotionComponentCollection<MotionComponent> _collection;
         private FieldInfo _componentsField;
         private FieldInfo _cacheField;
 
         [SetUp]
         public void SetUp()
         {
-            _collection = new MotionComponentRegistry<MotionComponent>();
-            _componentsField = typeof(MotionComponentRegistry<MotionComponent>)
+            _collection = new MotionComponentCollection<MotionComponent>();
+            _componentsField = typeof(MotionComponentCollection<MotionComponent>)
                 .GetField("components", BindingFlags.NonPublic | BindingFlags.Instance);
-            _cacheField = typeof(MotionComponentRegistry<MotionComponent>)
+            _cacheField = typeof(MotionComponentCollection<MotionComponent>)
                 .GetField("cacheByKey", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 

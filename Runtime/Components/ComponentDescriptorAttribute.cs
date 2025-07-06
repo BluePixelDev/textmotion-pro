@@ -1,19 +1,13 @@
 using System;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
-    public enum TextMotionRole
-    {
-        Effect,
-        Transition
-    }
-
     /// <summary>
     /// Attribute used to mark and describe a text motion component (effect or transition)
     /// for editor tooling and runtime discovery.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class TextMotionAttribute : Attribute
+    public class ComponentDescriptorAttribute : Attribute
     {
         /// <summary>
         /// The display name used in the editor or MotionProfile system.
@@ -30,19 +24,12 @@ namespace BP.TextMotion
         /// </summary>
         public string Description { get; }
 
-        /// <summary>
-        /// Optional type of the motion component (Effect or Transition).
-        /// </summary>
-        public TextMotionRole Role { get; }
-
-        public TextMotionAttribute(
+        public ComponentDescriptorAttribute(
             string displayName,
-            TextMotionRole role,
             string category = "Default",
             string description = "")
         {
             DisplayName = displayName;
-            Role = role;
             Category = category;
             Description = description;
         }

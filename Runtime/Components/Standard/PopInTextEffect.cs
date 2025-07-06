@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
-    [TextMotion("PopIn", TextMotionRole.Effect, "Makes the text 'pop' in from a small size")]
+    [ComponentDescriptor("PopIn", "Makes the text 'pop' in from a small size")]
     public class PopInTextEffect : TagComponent
     {
         [SerializeField] private float popInDuration = 0.5f;
@@ -14,7 +14,7 @@ namespace BP.TextMotion
         public override bool ValidateTag(string tag, string attributes) => true;
         public override void Apply(MotionContext context)
         {
-            var text = context.TextMotion.TextComponent;
+            var text = context.TextMotionPro.TextComponent;
 
             var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];
             int materialIndex = characterInfo.materialReferenceIndex;

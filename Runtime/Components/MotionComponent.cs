@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public abstract class MotionComponent : ScriptableObject
     {

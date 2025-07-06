@@ -1,11 +1,11 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     using TMPro;
     using UnityEngine;
 
     namespace BP.TMPA
     {
-        [TextMotion("Wave", TextMotionRole.Effect, "Makes the text move up and down using sine wave")]
+        [ComponentDescriptor("Wave", "Makes the text move up and down using sine wave")]
         public class WaveTextEffect : TagComponent
         {
             [SerializeField] private float frequency = 6f;
@@ -19,7 +19,7 @@ namespace BP.TextMotion
             public override void Apply(MotionContext context)
             {
                 int.TryParse(context.TagData.Value, out int waveStrength);
-                var text = context.TextMotion.TextComponent;
+                var text = context.TextMotionPro.TextComponent;
 
                 // Get the current character info
                 var characterInfo = text.textInfo.characterInfo[context.CharacterIndex];

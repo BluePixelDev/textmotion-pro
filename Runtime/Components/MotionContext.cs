@@ -1,4 +1,4 @@
-namespace BP.TextMotion
+namespace BP.TextMotionPro
 {
     public enum TransitionPhase
     {
@@ -8,7 +8,7 @@ namespace BP.TextMotion
 
     public class MotionContext
     {
-        public TextMotionPro TextMotion { get; private set; }
+        public TextMotionPro TextMotionPro { get; private set; }
         public CharacterData CharacterData { get; private set; }
         public int CharacterIndex { get; private set; }
         public float AnimationTime { get; private set; }
@@ -17,9 +17,9 @@ namespace BP.TextMotion
         public TransitionPhase? Phase { get; private set; }
         public string Parameters { get; private set; }
 
-        public void ResetForTag(TextMotionPro textMotion, TokenData tagData, CharacterData characterData, int characterIndex, float animationTime = 0)
+        public void ResetForTag(TextMotionPro textMotionPro, TokenData tagData, CharacterData characterData, int characterIndex, float animationTime = 0)
         {
-            TextMotion = textMotion;
+            TextMotionPro = textMotionPro;
             CharacterData = characterData;
             CharacterIndex = characterIndex;
             AnimationTime = animationTime;
@@ -29,9 +29,9 @@ namespace BP.TextMotion
             Parameters = null;
         }
 
-        public void ResetForTransition(TextMotionPro textMotion, CharacterData characterData, int characterIndex, float animationTime, TransitionPhase phase, string parameters)
+        public void ResetForTransition(TextMotionPro textMotionPro, CharacterData characterData, int characterIndex, float animationTime, TransitionPhase phase, string parameters)
         {
-            TextMotion = textMotion;
+            TextMotionPro = textMotionPro;
             CharacterData = characterData;
             CharacterIndex = characterIndex;
             AnimationTime = animationTime;
@@ -43,13 +43,24 @@ namespace BP.TextMotion
 
         public void Clear()
         {
-            TextMotion = null;
+            TextMotionPro = null;
             CharacterData = null;
             CharacterIndex = -1;
             AnimationTime = 0;
             TagData = null;
             Phase = null;
             Parameters = null;
+        }
+        public override string ToString()
+        {
+            return $"MotionContext: " +
+                   $"TextMotionPro={TextMotionPro?.ToString() ?? "null"}, " +
+                   $"CharacterData={CharacterData?.ToString() ?? "null"}, " +
+                   $"CharacterIndex={CharacterIndex}, " +
+                   $"AnimationTime={AnimationTime}, " +
+                   $"TagData={TagData?.ToString() ?? "null"}, " +
+                   $"Phase={(Phase.HasValue ? Phase.Value.ToString() : "null")}, " +
+                   $"Parameters={Parameters ?? "null"}";
         }
     }
 }

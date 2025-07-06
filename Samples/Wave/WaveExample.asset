@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f9e90e663d5ba4d836b916ca82d160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFolded: 0
+  isFolded: 1
   isActive: 1
   frequency: 6
   amplitude: 3

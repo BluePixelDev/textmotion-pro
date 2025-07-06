@@ -1,8 +1,7 @@
-using BP.TextMotion;
 using NUnit.Framework;
 using TMPro;
 
-namespace BP.TextMotionTests
+namespace BP.TextMotionPro.Tests
 {
     public class MotionRenderFlagsTests
     {
