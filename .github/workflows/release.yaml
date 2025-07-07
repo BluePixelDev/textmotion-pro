@@ -32,7 +32,7 @@ jobs:
     # Create .tgz tarball of the package folder
     - name: Pack UPM package
       run: |
-        tar -czf "../${{ steps.pkg.outputs.pkg_filename }}" *
+        tar -czf "${{ steps.pkg.outputs.pkg_filename }}" *
     
     - name: Generate release notes
       run: |
