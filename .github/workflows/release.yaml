@@ -22,8 +22,8 @@ jobs:
     - name: Get package name and version
       id: pkg
       run: |
-        PKG_NAME=$(jq -r '.name' /package.json)
-        PKG_VERSION=$(jq -r '.version' /package.json)
+        PKG_NAME=$(jq -r '.name' ./package.json)
+        PKG_VERSION=$(jq -r '.version' ./package.json)
         PKG_FILENAME="$(basename $PKG_NAME)-$PKG_VERSION.tgz"
         echo "pkg_name=$PKG_NAME" >> $GITHUB_OUTPUT
         echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
