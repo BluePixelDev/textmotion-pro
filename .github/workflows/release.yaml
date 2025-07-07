@@ -34,14 +34,27 @@ jobs:
       run: |
         tar -czf "../${{ steps.pkg.outputs.pkg_filename }}" *
     
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
+    - name: Generate release notes
+      run: |
+        echo "🎉 New release of ${{ steps.pkg.outputs.pkg_name }}" > RELEASE_NOTES.md
+        echo "Version: ${{ steps.pkg.outputs.pkg_version }}" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## Changelog" >> RELEASE_NOTES.md
+        echo "- Feature A" >> RELEASE_NOTES.md
+        echo "- Fix B" >> RELEASE_NOTES.md
+
+    - name: Upload release asset
+      uses: actions/upload-artifact@v4
       with:
-        files: ${{ steps.pkg.outputs.pkg_filename }}
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ steps.pkg.outputs.pkg_version }}
-        body: |
-          🎉 New release of ${{ steps.pkg.outputs.pkg_name }}
-          Version: ${{ steps.pkg.outputs.pkg_version }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: ${{ steps.pkg.outputs.pkg_name }}-v${{ steps.pkg.outputs.pkg_version }}
+        path: ${{ steps.pkg.outputs.pkg_filename }}
+
+    - name: Upload release notes
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-notes-v${{ steps.pkg.outputs.pkg_version }}
+        path: RELEASE_NOTES.md
+
+    - name: Create local tag
+      run: |
+        git tag v${{ steps.pkg.outputs.pkg_version }}
