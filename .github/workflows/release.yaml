@@ -32,7 +32,6 @@ jobs:
     # Create .tgz tarball of the package folder
     - name: Pack UPM package
       run: |
-        cd unity-package
         tar -czf "../${{ steps.pkg.outputs.pkg_filename }}" *
     
     - name: Create Release
