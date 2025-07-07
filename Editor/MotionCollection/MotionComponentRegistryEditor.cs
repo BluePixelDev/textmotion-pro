@@ -9,8 +9,8 @@ namespace BP.TextMotionPro.Editor
     [CustomPropertyDrawer(typeof(MotionComponentCollection<>), true)]
     public class MotionComponentRegistryEditor : PropertyDrawer
     {
-        [SerializeField] private VisualTreeAsset listContainerAsset;
-        [SerializeField] private VisualTreeAsset elementContainerAsset;
+        [SerializeField] private readonly VisualTreeAsset listContainerAsset;
+        [SerializeField] private readonly VisualTreeAsset elementContainerAsset;
 
         private VisualElement listRoot;
         private SerializedProperty listProperty;

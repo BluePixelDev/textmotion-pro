@@ -1,0 +1,48 @@
+name: Build and upload artifact
+
+on: 
+  push:
+    tags:
+       - v*
+  workflow_dispatch:
+
+jobs:
+  build-package:
+    name: Build and export package
+    runs-on: ubuntu-latest
+    steps:
+
+    #Checkout
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+    
+     # Read package name and version from package.json
+    - name: Get package name and version
+      id: pkg
+      run: |
+        PKG_NAME=$(jq -r '.name' /package.json)
+        PKG_VERSION=$(jq -r '.version' /package.json)
+        PKG_FILENAME="$(basename $PKG_NAME)-$PKG_VERSION.tgz"
+        echo "pkg_name=$PKG_NAME" >> $GITHUB_OUTPUT
+        echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
+        echo "pkg_filename=$PKG_FILENAME" >> $GITHUB_OUTPUT
+
+    # Create .tgz tarball of the package folder
+    - name: Pack UPM package
+      run: |
+        cd unity-package
+        tar -czf "../${{ steps.pkg.outputs.pkg_filename }}" *
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ steps.pkg.outputs.pkg_filename }}
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ steps.pkg.outputs.pkg_version }}
+        body: |
+          🎉 New release of ${{ steps.pkg.outputs.pkg_name }}
+          Version: ${{ steps.pkg.outputs.pkg_version }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

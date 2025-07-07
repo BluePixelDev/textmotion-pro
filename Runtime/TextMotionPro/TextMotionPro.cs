@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 namespace BP.TextMotionPro
@@ -131,7 +128,7 @@ namespace BP.TextMotionPro
             MotionUpdate();
         }
         private void TextEffectsChanged() => TextComponent.ForceMeshUpdate(true, true);
-        private void OnTextChange(Object obj)
+        private void OnTextChange(UnityEngine.Object obj)
         {
             if (obj != TextComponent) return;
             CacheMeshInfo();
